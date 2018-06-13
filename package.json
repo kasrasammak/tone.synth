@@ -1,0 +1,23 @@
+{
+  "name": "tone-synth",
+  "version": "1.0.0",
+  "description": "<br> We are creating a Digital Audio Synthesizer primarily from the Github library Tone.js<br> Download:<br> https://nodejs.org/en/<br> https://nodejs.org/en/docs/guides/getting-started-guide/<br> https://github.com/Tonejs/Tone.js<br> http://jquery.com/download/<br> <br> Whatever change",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kasrasammak/tone.synth.git"
+  },
+  "author": "Kasra Sammak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kasrasammak/tone.synth/issues"
+  },
+  "homepage": "https://github.com/kasrasammak/tone.synth#readme",
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "tone": "^0.12.80"
+  }
+}
