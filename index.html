@@ -1,0 +1,142 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div>
+		<button id="Btn2">Play Random Bass</button>
+	</div>
+	<div>
+		<button id="synthA">Synth A</button>
+		<button id="synthB">Synth B</button>
+	</div>
+	<div>
+		<p>ROUTING</p>    
+		<select id="nodeFromConnect"name="audioNode">
+       		<option value="synth">Synth</option>
+        	<option value="filter">Filter</option>
+        	<option value="pingpong">Ping Pong Delay</option>
+			<option value="distortion">Distortion</option>
+		</select>
+		<button id="connect">Connect</button>  
+		<select id="nodeToConnect"name="audioNode">
+			<option value="synth">Synth</option>
+			<option value="filter">Filter</option>
+			<option value="pingpong">Ping Pong Delay</option>
+			<option value="distortion">Distortion</option>
+		</select>
+	</div>
+	<div>      
+		<select id="nodeFromDisconnect" name="audioNode">
+			<option value="synth">Synth</option>
+			<option value="filter">Filter</option>
+			<option value="pingpong">Ping Pong Delay</option>
+			<option value="distortion">Distortion</option>
+		</select>
+		<button id="disconnect">Disconnect</button>  
+		<select id="nodeToDisconnect" name="audioNode">
+			<option value="synth">Synth</option>
+			<option value="filter">Filter</option>
+			<option value="pingpong">Ping Pong Delay</option>
+			<option value="distortion">Distortion</option>
+		</select>
+	</div>
+	<div>
+		<select id="toMasterNode" name="audioNode">
+			<option value="synth">Synth</option>
+			<option value="filter">Filter</option>
+			<option value="pingpong">Ping Pong Delay</option>
+			<option value="distortion">Distortion</option>
+		</select>
+		<button id="toMasterConnect">Connect to Master</button>
+		<button id="toMasterDisconnect">Disconnect from Master</button>
+	</div>
+	<div>
+		<p>Choose Where To Connect the LFO</p>
+		<button id="connectLFO">Connect LFO</button>
+		<!-- fix proceeding line for later -->
+		<select id="lfo">
+			<option value="lfofilterfreq">Filter Frequency</option>
+			<option value="lfopingpongtime">Ping Pong Delay Time</option>
+			<option value="lfolfoamount">Lfo Amount</option>
+			<option value="lfodistamt">Distortion Amount</option>
+		</select>
+		<button id="disconnectLFO">Disconnect LFO</button>
+		<!-- fix proceeding line for later -->
+		<textarea id ="LFOfrom" rows="1" cols="10"></textarea>
+	</div>
+	<div>
+		<p>START and STOP</p>
+		<button id="start">Start</button>
+		<select id="startstop">
+			<option value="lfo">LFO</option>
+			<option value="oscillator">Oscillator</option>
+		</select>
+		<button id="stop">Stop</button>
+	</div>
+	<div>
+		<p>FILTER SETTINGS</p>
+		<button id="setFilter">Set All Filter</button>
+	<br>
+		<input id="filterFreqText" />
+		<button id="setFilterFreq">Set Frequency</button>
+		<div class="slidecontainer">
+			<input type="range" min="20" max="20000" step="1" value="10" id="filterfreqslide">
+		</div>
+		<select id="filterType">
+			<option>lowpass</option> 
+			<option>highpass</option>
+			<option>bandpass</option>
+			<option>lowshelf</option>
+			<option>highshelf</option>
+			<option>notch</option> 
+			<option>allpass</option>
+			<option>peaking</option>
+		</select>
+		<button id="setFilterType">Set Type</button>
+		<br>
+		<textarea id = "filterSlopeText" rows="1" cols="10"></textarea>
+		<button id="setFilterSlope">Set Slope</button>
+	</div>
+	<div>
+			<p id="demo"></p>
+			<p id="demo2"></p>
+			<p id="demo3"></p>
+	</div>
+	<div>
+		<p>PINGPONG DELAY SETTINGS</p>
+		<textarea id = "pingpongtime" rows="1" cols="10"></textarea>
+		<button id="pingpongtimebtn">Set Time</button>
+		<textarea id = "pingpongfeedback" rows="1" cols="10"></textarea>
+		<button id="pingpongfeedbackbtn">Set Feedback</button>
+		<div class="slidecontainer">
+			<input type="range" min="0" max="1" step=".05" value=".5" id="ppdelaytimeslide">
+		</div>
+		<div class="slidecontainer">
+			<input type="range" min="0" max="1" step=".01" value=".7" id="ppdelayfeedslide">
+		</div>
+	</div>
+	<div>
+		<p>LFO SETTINGS</p>
+		<br>
+		<textarea id = "lfofrequency" rows="1" cols ="10"></textarea>
+		<button id = "setlfofrequency">Set LFO Frequency</button>
+	</div>
+	<div class="slidecontainer">
+		<input type="range" min="0" max="65" step=".5" value="10" id="lfotimeslide">
+	</div>
+	<div class="slidecontainer">
+			<input type="range" min="0" max="1" step=".01" value="10" id="lfoampslide">
+	</div>
+
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="interface.js"></script>
+	<script type="text/javascript" src="draggabilly.js"></script>
+	<script type="text/javascript" src="tone.js" ></script>
+	<script type="text/javascript" src="index.js"></script>
+	<script type="text/javascript" src="new.js"></script>
+
+	
+</body>
+</html>
