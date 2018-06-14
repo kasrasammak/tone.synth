@@ -14,7 +14,7 @@ const config = {
 
 	output: {
 		path: path.resolve(__dirname, 'build'),
-		filename: hashFilenames ? '[name].[hash].js' : '[name].js',
+		filename: '[name].js',
 		publicPath: '/'
 	},
 
@@ -22,7 +22,7 @@ const config = {
 
 	plugins : [
 		new WebpackNotifierPlugin(),
-		new ExtractTextPlugin(hashFilenames ? '[name].[hash].css' : '[name].css'),
+
 		new HtmlWebpackPlugin({
 			title : 'tone.synth',
 			template: './templates/index.html',
@@ -33,13 +33,15 @@ const config = {
 
 	],
 
-	loaders : [
+	module : {
+		rules :	[
 			{
 				test: /\.js$/,
 				loader: 'babel-loader',
 				exclude: /node_modules/
 			}
-	],
+		]
+	},
 
 	resolve: {
 		modules: [
@@ -47,7 +49,8 @@ const config = {
 			path.resolve(__dirname, 'src/js'),
 			path.resolve(__dirname, 'node_modules')
 		],
-		extensions: ['.js', '.json', '.scss', '.css'],
-		alias: {}
+		extensions: ['.js', '.json', '.scss', '.css']
 	}
 }
+
+module.exports = config;

@@ -4,7 +4,8 @@
   "description": "<br> We are creating a Digital Audio Synthesizer primarily from the Github library Tone.js<br> Download:<br> https://nodejs.org/en/<br> https://nodejs.org/en/docs/guides/getting-started-guide/<br> https://github.com/Tonejs/Tone.js<br> http://jquery.com/download/<br> <br> Whatever change",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development node server.js",
+    "start": "node server.js",
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,9 @@
   "homepage": "https://github.com/kasrasammak/tone.synth#readme",
   "dependencies": {
     "jquery": "^3.3.1",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-rotary-knob": "^1.1.1",
     "tone": "^0.12.80"
   },
   "devDependencies": {
