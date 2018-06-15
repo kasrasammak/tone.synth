@@ -4,6 +4,8 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+  
 
 
 const config = {
@@ -22,7 +24,7 @@ const config = {
 
 	plugins : [
 		new WebpackNotifierPlugin(),
-
+		new ExtractTextPlugin({filename:'[name].css', allChunks: true}),
 		new HtmlWebpackPlugin({
 			title : 'tone.synth',
 			template: './templates/index.html',
@@ -39,9 +41,20 @@ const config = {
 				test: /\.js$/,
 				loader: 'babel-loader',
 				exclude: /node_modules/
-			}
+			},
+			{
+				test: /\.css$/,
+				include: /node_modules/,
+						use: ExtractTextPlugin.extract(
+				  {
+					fallback: 'style-loader',
+					use: ['css-loader']
+				})
+			},
 		]
 	},
+
+	
 
 	resolve: {
 		modules: [

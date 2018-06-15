@@ -2,10 +2,10 @@ import {Envelope} from 'tone'
 
 class MyEnvelope {
     constructor() {
-        this.env = new Envelope;
+        this.env = new Envelope();
+        this.env.triggerAttackRelease(1);
     }
     connect(param) {
-        console.log(this.env);
         this.env.connect(param);
     }
 }

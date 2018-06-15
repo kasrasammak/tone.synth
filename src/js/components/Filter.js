@@ -5,6 +5,7 @@ class MyFilter {
         this.filter = new Filter();
         this.filter.type = 'bandpass';
         this.filter.toMaster();
+        // this.frequency = this.filter.frequency;
     }
 
     connectInput(node) {

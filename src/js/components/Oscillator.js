@@ -6,8 +6,8 @@ class MyOscillator {
     constructor() {
         // this.tone = tone;
         // create an osci
-        this.osc = new Oscillator("C4");
-        this.osc.type = "sine"
+        this.osc = new Oscillator("C1");
+        this.osc.type = "sawtooth"
         // connect to master
         this.osc.toMaster();
     }

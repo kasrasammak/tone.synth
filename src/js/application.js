@@ -1,23 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Tone from 'tone';
 
 import MyOscillator from 'components/Oscillator';
-import MyFilter from 'components/Filter';
 import App from 'components/App';
 import MyEnvelope from './components/Envelope';
 
+import {Tone} from 'tone'
+import {Filter} from 'tone'
+import {PolySynth} from 'tone'
+import {Synth} from 'tone'
+import {Oscillator} from 'tone'
+import {Envelope} from 'tone'
+import {Transport} from 'tone'
+import {PingPongDelay} from 'tone'
+import {BitCrusher} from 'tone'
+
 console.log("hello world");
 
-let osc = new MyOscillator();
-let filt = new MyFilter();
+let osc = new Oscillator();
+let filt = new Filter();
 let env = new MyEnvelope();
+// let transport = new Transport();
+let pingpong = new PingPongDelay();
+let bitcrush = new BitCrusher();
+let poly = new PolySynth(4, Synth);
+
+import 'css/app.css';
+
 
 ReactDOM.render(
 <App 
-    tone={Tone} 
-    test="test"
     osc={osc}
+    poly = {poly}
     filt={filt}
+    pingpong = {pingpong}
     env={env}
+    // transport={transport}
 />, document.getElementById('root'));

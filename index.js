@@ -134,13 +134,15 @@ var note = {
 }
 
 
-//amplitude envelope
-var ampEnv = new Tone.AmplitudeEnvelope({
-	"attack": 0.01,
-	"decay": 0.5,
-	"sustain": 1.0,
-	"release": 0.1
-});
+// envelope
+// var env = new Tone.Envelope({
+// 	"attack": 1,
+// 	"decay": 1,
+// 	"sustain": .5,
+// 	"release": 0.1
+// });
+
+// env.connect(filter.frequency);
 
 var synthA = new Tone.Synth({
 	oscillator : {
