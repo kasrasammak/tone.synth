@@ -5,7 +5,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-  
+
 
 
 const config = {
@@ -44,17 +44,15 @@ const config = {
 			},
 			{
 				test: /\.css$/,
-				include: /node_modules/,
-						use: ExtractTextPlugin.extract(
-				  {
-					fallback: 'style-loader',
-					use: ['css-loader']
-				})
-			},
+        use: [ 'style-loader', 'css-loader' ],
+        use: ExtractTextPlugin.extract({
+          use: 'css-loader',
+        })
+			}
 		]
 	},
 
-	
+
 
 	resolve: {
 		modules: [

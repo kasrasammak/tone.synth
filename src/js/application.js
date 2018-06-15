@@ -15,8 +15,6 @@ import {Transport} from 'tone'
 import {PingPongDelay} from 'tone'
 import {BitCrusher} from 'tone'
 
-console.log("hello world");
-
 let osc = new Oscillator();
 let filt = new Filter();
 let env = new MyEnvelope();
@@ -27,9 +25,8 @@ let poly = new PolySynth(4, Synth);
 
 import 'css/app.css';
 
-
 ReactDOM.render(
-<App 
+<App
     osc={osc}
     poly = {poly}
     filt={filt}
