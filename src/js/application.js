@@ -14,14 +14,16 @@ import {Envelope} from 'tone'
 import {Transport} from 'tone'
 import {PingPongDelay} from 'tone'
 import {BitCrusher} from 'tone'
+import {LFO} from 'tone'
 
-let osc = new Oscillator();
+let osc = new Oscillator("C1");
 let filt = new Filter();
 let env = new MyEnvelope();
 // let transport = new Transport();
 let pingpong = new PingPongDelay();
 let bitcrush = new BitCrusher();
 let poly = new PolySynth(4, Synth);
+let lfo = new LFO(1, 400, 4000);
 
 import 'css/app.css';
 
@@ -32,5 +34,6 @@ ReactDOM.render(
     filt={filt}
     pingpong = {pingpong}
     env={env}
+    lfo={lfo}
     // transport={transport}
 />, document.getElementById('root'));
