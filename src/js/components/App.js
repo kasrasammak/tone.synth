@@ -107,17 +107,39 @@ class App extends Component {
     setOscFreq = (value) => {
 
         console.log(value);
-        this.setState( { knobValueOsc: Math.floor(value)}  );
+        
         const osc = this.props.osc;
-        osc.frequency.value = value;
-
+        const min = 20;
+        const max = 20000;
+        const position = value;
+        const minp = 20;
+        const maxp = 20000;
+        const minv = Math.log(min)/Math.log(2);
+        const maxv = Math.log(max)/Math.log(2);
+        const scale = (maxv-minv)/(maxp-minp);
+        const value2 = Math.pow(2, minv + scale*(position - minp));
+        osc.frequency.value = value2;
+        this.setState( { knobValueOsc: Math.floor(value2)}  );
     }
     setFiltFreq = (value) => {
-
-        console.log(value);
-        this.setState( { knobValueFiltFreq: Math.floor(value) } );
         const {filt} = this.props;
-        filt.frequency.value = value;
+        const min = 20;
+        const max = 20000;
+        const position = value;
+        const minp = 20;
+        console.log("Minp=" +minp);
+        const maxp = 20000;
+        console.log("Maxp=" + maxp);
+        const minv = Math.log(min)/Math.log(2);
+        console.log("Minv=" + minv);
+        const maxv = Math.log(max)/Math.log(2);
+        console.log("Maxv=" + maxv);
+        const scale = (maxv-minv) / (maxp-minp);
+        console.log("Scale=" + scale);
+        const value2 = Math.pow(2, minv + scale*(position-minp));
+        console.log("value = " + value)
+        filt.frequency.value = value2;
+        this.setState( { knobValueFiltFreq: Math.floor(value2) } );
 
     }
     setFiltGain = (value) => {
@@ -349,6 +371,14 @@ class App extends Component {
                 <div class = "grid-item4" id="filterfreq">
                     <h3>Filter Freq: {this.state.knobValueFiltFreq}</h3>
                     <Knob 
+                        // USEFUL CODE-INFO FOR LATER STYLES
+                        // style={ {
+                        //     width: "30px",
+                        //     // marginTop: "8rem",
+                        //     // marginLeft: "8rem",
+                        //     height: "30px",
+                        //     // display: "inline-block"
+                        //   } }
                         min={20}
                         max={20000}
                         value={this.state.knobValueFiltFreq}
