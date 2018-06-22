@@ -4,22 +4,22 @@ import { Knob } from 'react-rotary-knob';
 import { Transport } from 'tone'
 import { Tone } from 'tone';
 import { Master } from 'tone';
-import Screen from 'components/Screen'
-import Screen2 from 'components/Screen2'
 
+import Screen from 'components/Screen';
+import Screen2 from 'components/Screen2';
+
+import ScreenManager from 'components/ScreenManager';
 
 import { noteMap } from 'config';
-import { scComps } from 'config';
-
 
 class App extends Component {
    constructor(props) {
        super(props);
        this.pressedKeys = [];
    }
- 
+
     state = {
-        knobValueOsc : 0, 
+        knobValueOsc : 0,
         knobValueOscPhase : 0,
         knobValueFiltFreq : 0,
         knobValueFiltGain : 0.1,
@@ -33,21 +33,17 @@ class App extends Component {
         knobValueLFOFreq : 0,
         knobValueLFOAmp : 1,
         knobValueBitCrushDepth : 4,
-        knobValueBitCrushWet : .5, 
+        knobValueBitCrushWet : .5,
         LFOConnected: "Disconnected",
         knobFilterFreqMin : 20,
         knobFilterFreqMax : 20000,
         knobValuePingPongWet : .5,
-        i : 0,
-        screen : 1,
+        currentScreen : 0
     }
 
-    updateScreen = (val) => {
-        this.setState({screen: val})
-        console.log(this.state.screen)
+    updateScreen = (currentScreen) => {
+        this.setState({currentScreen})
     }
-
-
 
     startOsc = (event) => {
         const { osc } = this.props;
@@ -63,11 +59,6 @@ class App extends Component {
         const osc = this.props.osc;
         osc.type = event.target.value;
     }
-
-
-
-
-
 
     connectMaster = (event) => {
         const { selectedNode } = this.state;
@@ -112,7 +103,7 @@ class App extends Component {
     // connectToFilter = (event) => {
     //     const { osc, poly, filt } = this.props;
     //     // var test = something ? something : somethingElse;
-    //     filt.connectInput(poly) 
+    //     filt.connectInput(poly)
     //     filt.connectInput(osc);
     // }
 
@@ -127,7 +118,7 @@ class App extends Component {
     setOscFreq = (value) => {
 
         console.log(value);
-        
+
         const osc = this.props.osc;
         const min = 20;
         const max = 20000;
@@ -170,7 +161,7 @@ class App extends Component {
         filt.gain.value = val;
         console.log(filt.gain.value);
 
-    }    
+    }
     setPingPongTime = (value) => {
 
         console.log(value);
@@ -179,7 +170,7 @@ class App extends Component {
         pingpong.delayTime.value = value;
 
 
-    }    
+    }
     setPingPongFeedback = (value) => {
 
         console.log(value);
@@ -188,7 +179,7 @@ class App extends Component {
         pingpong.feedback.value = value;
 
 
-    }   
+    }
     setPingPongWet = (val) => {
         this.setState ( {knobValuePingPongWet: val.toFixed(2)})
         const {pingpong} = this.props;
@@ -197,9 +188,9 @@ class App extends Component {
     setLFOFreq = (value) => {
         this.setState( { knobValueLFOFreq : Math.floor(value) } );
         const {lfo} = this.props;
-        
+
         lfo.frequency.value = value;
-        
+
     }
     setLFOAmp = (value) => {
         this.setState( { knobValueLFOAmp: value.toFixed(2) } );
@@ -230,7 +221,7 @@ class App extends Component {
     setI = (val) => {
         this.setState( {i : Math.floor(val)})
     }
-   
+
 
     tester = (event, value) => {
         console.log('tester running');
@@ -251,13 +242,13 @@ class App extends Component {
     }
 
     handleKeyDown = (event) => {
-        
+
         const { poly, osc } = this.props;
         console.log(poly);
         const keyCode = event.keyCode;
         const note = noteMap[keyCode];
         let oct = this.state.oct;
-    
+
         if (note != undefined && !this.pressedKeys.includes(keyCode)) {
             this.pressedKeys.push(keyCode);
             if (keyCode === 75 || keyCode === 79 || keyCode === 76) {
@@ -277,11 +268,11 @@ class App extends Component {
         if (event.keyCode === 88){
             oct ++;
         }
-    
+
         this.setState({oct});
     }
-    
-    
+
+
     handleKeyUp = (event) => {
         const { poly, osc } = this.props;
         const keyCode = event.keyCode;
@@ -303,7 +294,7 @@ class App extends Component {
                 }
             }
         }
-    
+
         this.setState({oct})
     }
 
@@ -315,8 +306,8 @@ class App extends Component {
     componentWillUnmount() {
         window.removeEventListener("keydown", this.handleKeyDown);
         window.removeEventListener("keyup", this.handleKeyUp);
-    } 
-    
+    }
+
 
 
     render () {
@@ -326,43 +317,43 @@ class App extends Component {
         console.log(this.state);
 
         const nodes = Object.keys(this.props);
-    
+
         return (
         <div>
-            
+
             <div>
                 <span>
                     <h1>Welcome to Kasra's tone.js Synthesizer.</h1>
                 </span>
             </div>
-            <div id="instructions"> 
+            <div id="instructions">
                 <span id="instructions1">
                     Feel free to play with the keyboard
                     <br/>
-                    <span id="Rememberfootnote"> 
+                    <span id="Rememberfootnote">
                         Remember to input a source sound to an output
-                      
-                        and connect the necessary source and/or output to the master channel.                    
+
+                        and connect the necessary source and/or output to the master channel.
                         <br/>
                     </span>
                 </span>
             </div>
             <br/>
-            <div class="grid-container">
-                <div class = "grid-item1" id="oscillator">
+            <div className="grid-container">
+                <div className = "grid-item1" id="oscillator">
                     <h2>Oscillator</h2>
                     <button onClick={this.startOsc} >Start</button>
                     <button onClick={this.stopOsc}>Stop</button>
                     <br/>
                     <select onChange = {this.setOscType} id="oscType">
-                        <option >sine</option> 
+                        <option >sine</option>
                         <option >square</option>
                         <option >triangle</option>
                         <option>sawtooth</option>
                     </select>
                     <br/>
-                    <div class = "oscknobgrid">
-                        <div class = "oscknob1" id="oscfreq">            
+                    <div className = "oscknobgrid">
+                        <div className = "oscknob1" id="oscfreq">
                             <h3>Osc Freq: <br/>{this.state.knobValueOsc}</h3>
                             <Knob
                                 style={ {
@@ -376,7 +367,7 @@ class App extends Component {
                                 unlockDistance={1}
                             />
                         </div>
-                        <div class = "oscknob2" id="oscphase">            
+                        <div className = "oscknob2" id="oscphase">
                             <h3>Osc Phase: <br/>{this.state.knobValueOscPhase}</h3>
                             <Knob
                                 style={ {
@@ -392,24 +383,24 @@ class App extends Component {
                         </div>
                     </div>
                 </div>
-                <div class = "grid-item2" id="connections">
+                <div className = "grid-item2" id="connections">
                     <h2>Connections</h2>
                     <span>Input: </span>
                     <select onChange={this.selectNodeInput} id="toMasterNode" name="audioNode">
-                        
+
                         {nodes.map( (node) => {
                             return <option key={node} value={node}>{node.toUpperCase()}</option>
                         })}
-                    </select> 
+                    </select>
                     <br/>
-                    <span> Output: </span>            
+                    <span> Output: </span>
                     <select onChange={this.selectNodeOutput} id="toMasterNode" name="audioNode">
                         {nodes.map( (node) => {
                             return <option key={node} value={node}>{node.toUpperCase()}</option>
                         })}
-                    </select>  
+                    </select>
                     <br/>
-                    <button onClick={this.connect}>Connect</button>       
+                    <button onClick={this.connect}>Connect</button>
                     <button onClick={this.disconnect}>Disconnect</button>
                     <br/>
                     <span id="connectionstart">**START HERE BELOW</span>
@@ -425,10 +416,10 @@ class App extends Component {
                         <button onClick={this.disconnectMaster}>Disconnect from Master</button>
                     </div>
                 </div>
-                <div class = "grid-item4" id="filterfreq">
+                <div className="grid-item4" id="filterfreq">
                     <h2>Filter</h2>
                     <h3>Filter Freq: <br/>{this.state.knobValueFiltFreq}</h3>
-                    <Knob 
+                    <Knob
                         // USEFUL CODE-INFO FOR LATER STYLES
                         style={ {
                             width: "40px",
@@ -450,7 +441,7 @@ class App extends Component {
                         <option>notch</option>
                     </select>
                     <h3>Filter Gain: <br/>{this.state.knobValueFiltGain}</h3>
-                    <Knob 
+                    <Knob
                         style={ {
                             width:"40px",
                             height: "40px",
@@ -462,16 +453,16 @@ class App extends Component {
                         unlockDistance={1}
                     />
                 </div>
-                <div class = "grid-item5" id= "pingpong">
+                <div className="grid-item5" id= "pingpong">
                     <h2> Ping Pong Delay</h2>
-                    <div class="ppgrid">
-                        <div class = "pp1" id = "ppdelaytime">
+                    <div className="ppgrid">
+                        <div className="pp1" id = "ppdelaytime">
                             <h3> Delay Time: <br/>{this.state.knobValuePingPongTime}</h3>
                             <Knob
                                 style={ {
                                     width:"40px",
                                     height: "40px",
-                                }}                     
+                                }}
                                 min={0}
                                 max={1}
                                 value={this.state.knobValuePingPongTime}
@@ -479,37 +470,37 @@ class App extends Component {
                                 unlockDistance={1}
                             />
                         </div>
-                        <div class="pp2"id="ppfeedback">
+                        <div className="pp2"id="ppfeedback">
                             <h3> Feedback: <br/>{this.state.knobValuePingPongFeedback}</h3>
-                            <Knob 
+                            <Knob
                                 style={ {
                                     width:"40px",
                                     height: "40px",
-                                }}                    
+                                }}
                                 min={0}
                                 max={1}
                                 value={this.state.knobValuePingPongFeedback}
                                 onChange={this.setPingPongFeedback}
                                 unlockDistance={1}
-                            /> 
+                            />
                         </div>
-                        <div class ="pp3"id="ppwet">
+                        <div className="pp3"id="ppwet">
                             <h3> Dry/Wet: <br/>{this.state.knobValuePingPongWet}</h3>
-                            <Knob 
+                            <Knob
                                 style={ {
                                     width:"40px",
                                     height: "40px",
-                                }}                    
+                                }}
                                 min={0}
                                 max={1}
                                 value={this.state.knobValuePingPongWet}
                                 onChange={this.setPingPongWet}
                                 unlockDistance={1}
-                            /> 
+                            />
                         </div>
                     </div>
-                </div> 
-                <div class = "grid-item6" id="lfo">
+                </div>
+                <div className="grid-item6" id="lfo">
                 <h2>LFO</h2>
                     <button onClick={this.turnLFOon}>Turn LFO On</button>
                     <button onClick={this.disconnectLFO}>Disconnect LFO </button>
@@ -517,7 +508,7 @@ class App extends Component {
                     <span> {this.LFOConnected} </span>
                     <div id="lfofrequency">
                         <h3> LFO Frequency: <br/>{this.state.knobValueLFOFreq}</h3>
-                        <Knob 
+                        <Knob
                             style={ {
                                 width:"40px",
                                 height: "40px",
@@ -527,16 +518,16 @@ class App extends Component {
                             value={this.state.knobValueLFOFreq}
                             onChange={this.setLFOFreq}
                             unlockDistance={1}
-                        /> 
+                        />
                     </div>
                     <div id="lfoamplitude">
-                    
+
                         <h3> LFO Amplitude: <br/>{this.state.knobValueLFOAmp}</h3>
-                        <Knob 
+                        <Knob
                             style={ {
                                 width:"40px",
                                 height: "40px",
-                            }}                    
+                            }}
                             min={0}
                             max={1}
                             value={this.state.knobValueLFOAmp}
@@ -545,13 +536,13 @@ class App extends Component {
                         />
                     </div>
                     <span id="lfofoot">
-                    **LFO only connects to the Filter Frequency.</span>                     
-                </div> 
-                <div class ="grid-item7" id= "bitcrusher">
+                    **LFO only connects to the Filter Frequency.</span>
+                </div>
+                <div onClick={() => this.updateScreen(1)} className="grid-item7" id= "bitcrusher">
                     <h2>Bit Crusher</h2>
-                    
+
                     <h3> Bit Depth: <br/>{this.state.knobValueBitCrushDepth}</h3>
-                        <Knob 
+                        <Knob
                             style={ {
                                 width:"40px",
                                 height: "40px",
@@ -563,7 +554,7 @@ class App extends Component {
                             unlockDistance={1}
                         />
                     <h3> Dry/Wet: <br/>{this.state.knobValueBitCrushWet}</h3>
-                        <Knob 
+                        <Knob
                             style={ {
                                 width:"40px",
                                 height: "40px",
@@ -573,10 +564,10 @@ class App extends Component {
                             value={this.state.knobValueBitCrushWet}
                             onChange={this.setBitCrushWet}
                             unlockDistance={1}
-                        />             
-                </div>             
-            </div> 
-            <Knob 
+                        />
+                </div>
+            </div>
+            <Knob
                 style= { {
                     width: "20px",
                     height: "20px",
@@ -587,8 +578,14 @@ class App extends Component {
                 onChange = {this.setI}
                 unlockDistance={1}
             />
-            {scComps[this.state.i]}        
-            {/* <Screen updateScreen={this.updateScreen}/> */}
+            <ScreenManager
+                currentScreen={this.state.currentScreen}
+                updateScreen={this.updateScreen}
+                screens={[
+                    <Screen />,
+                    <Screen2 />
+                ]}
+            />
         </div>);
     }
 }
