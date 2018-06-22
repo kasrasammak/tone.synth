@@ -101,28 +101,28 @@ p, span {
   }
 .grid-item1{
     grid-column-start: 1;
-    grid-column-end: 3;
+    grid-column-end: 6;
 }
 .grid-item2{
-    grid-column-start: 3;
-    grid-column-end: 5;
+    grid-column-start: 6;
+    grid-column-end: 10;
 }
 
 .grid-item4{
     grid-column-start: 1;
-    grid-column-end: 2;
+    grid-column-end: 4;
 }
 .grid-item5{
-    grid-column-start: 2;
+    grid-column-start: 1;
     grid-column-end: 3;
 }
 .grid-item6{
     grid-column-start: 3;
-    grid-column-end: 4;
+    grid-column-end: 6;
 }
 .grid-item7{
-    grid-column-start: 4;
-    grid-column-end: 5;
+    grid-column-start: 6;
+    grid-column-end: 10;
 }
 
 .oscknob1{
@@ -154,5 +154,38 @@ p, span {
 }
 #bitcrusher {
     background-color:thistle;
+    /* border-radius: 10px;
+    border-style: solid; */
+}
+#bitcrusherselector {
+    background-color:thistle;
+    border-radius: 10px;
+    border-style: solid;
+}
 
+#pingpongselector {
+    background-color:antiquewhite;
+    border-radius: 10px;
+    border-style: solid;
+}
+#lfoselector {
+    background-color: lavenderblush;
+    border-radius: 10px;
+    border-style: solid;
+}
+.Screen {
+    background-color: seashell;
+    /* margin-left: auto;
+    margin-right: auto; */
+    width: 400px;
+    border-style: solid;
+    border-radius: 10px;
+    height: 400px;
+    grid-column-start: 4;
+    grid-column-end: 7;
+
+}
+.selectorgrid {
+    grid-column-start: 7;
+    grid-column-end: 10;
 }

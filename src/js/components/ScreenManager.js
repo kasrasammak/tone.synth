@@ -23,7 +23,7 @@ export default class ScreenManager extends Component {
 					{currentScreen}
 				</div>
 
-				<div className="screen-controls">
+				{/* <div className="screen-controls">
 					{screens.map( (screen, i) => {
 						return (<div
 							key={i}
@@ -32,7 +32,7 @@ export default class ScreenManager extends Component {
 							Screen {i}
 							</div>)
 					})}
-				</div>
+				</div> */}
 			</div>
 		);
 	}

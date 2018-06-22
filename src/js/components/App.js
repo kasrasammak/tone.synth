@@ -5,12 +5,13 @@ import { Transport } from 'tone'
 import { Tone } from 'tone';
 import { Master } from 'tone';
 
-import Screen from 'components/Screen';
-import Screen2 from 'components/Screen2';
-
 import ScreenManager from 'components/ScreenManager';
+import Screen from 'components/Screen';
+import LFOScreen from 'components/LFOScreen';
+import PingPongScreen from './PingPongScreen';
 
 import { noteMap } from 'config';
+
 
 class App extends Component {
    constructor(props) {
@@ -138,19 +139,14 @@ class App extends Component {
         const max = 20000;
         const position = value;
         const minp = this.state.knobFilterFreqMin;
-        console.log("Minp=" +minp);
         const maxp = this.state.knobFilterFreqMax;
-        console.log("Maxp=" + maxp);
         const minv = Math.log(min)/Math.log(2);
-        console.log("Minv=" + minv);
         const maxv = Math.log(max)/Math.log(2);
-        console.log("Maxv=" + maxv);
         const scale = (maxv-minv) / (maxp-minp);
-        console.log("Scale=" + scale);
         const value2 = Math.pow(2, minv + scale*(position-minp));
-        console.log("value = " + value)
         filt.frequency.value = value2;
         this.setState( { knobValueFiltFreq: Math.floor(value2) } );
+        console.log(filt);
 
     }
     setFiltGain = (val) => {
@@ -218,9 +214,7 @@ class App extends Component {
         this.setState( { knobValueBitCrushWet : val.toFixed(2) } );
         bitcrush.wet.value =  val;
     }
-    setI = (val) => {
-        this.setState( {i : Math.floor(val)})
-    }
+
 
 
     tester = (event, value) => {
@@ -453,7 +447,48 @@ class App extends Component {
                         unlockDistance={1}
                     />
                 </div>
-                <div className="grid-item5" id= "pingpong">
+                <div className="Screen">
+                    <ScreenManager
+                        currentScreen={this.state.currentScreen}
+                        updateScreen={this.updateScreen}
+                        screens={[
+                            <Screen 
+                                knobDepthChange={this.setBitCrushDepth}
+                                knobDepthValue={this.state.knobValueBitCrushDepth}
+                                knobWetChange={this.setBitCrushWet}
+                                knobWetValue={this.state.knobValueBitCrushWet}
+                            />,
+                            <LFOScreen 
+                                TurnLFOOn={this.turnLFOon} 
+                                TurnLFOOff={this.disconnectLFO}
+                                knobLFOFreqChange={this.setLFOFreq}
+                                knobLFOFreqValue={this.state.knobValueLFOFreq}
+                                knobLFOAmpChange={this.setLFOAmp}
+                                knobLFOAmpValue={this.state.knobValueLFOAmp}
+                            />,
+                            <PingPongScreen
+                                knobTimeChange={this.setPingPongTime}
+                                knobTimeValue={this.state.knobValuePingPongTime}
+                                knobFeedbackChange={this.setPingPongFeedback}
+                                knobFeedbackValue={this.state.knobValuePingPongFeedback}
+                                knobWetChange={this.setPingPongWet}
+                                knobWetValue={this.state.knobValuePingPongWet}
+                            />
+                        ]}
+                    />
+                </div>
+                <div class="selectorgrid">
+                    <div id="pingpongselector" onClick={() => this.updateScreen(2)}>
+                        <h2> Ping Pong Delay </h2>
+                    </div>
+                    <div id="lfoselector" onClick={() => this.updateScreen(1)}>
+                        <h2>LFO</h2>
+                    </div>
+                    <div id="bitcrusherselector" onClick={() => this.updateScreen(0)}>
+                        <h2>Bit Crusher</h2>
+                    </div>
+                </div>
+                <div onClick={() => this.updateScreen(2)}className="grid-item5" id= "pingpong">
                     <h2> Ping Pong Delay</h2>
                     <div className="ppgrid">
                         <div className="pp1" id = "ppdelaytime">
@@ -500,8 +535,8 @@ class App extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="grid-item6" id="lfo">
-                <h2>LFO</h2>
+                <div onClick={() => this.updateScreen(0)} className="grid-item6" id="lfo">
+                    <h2>LFO</h2>
                     <button onClick={this.turnLFOon}>Turn LFO On</button>
                     <button onClick={this.disconnectLFO}>Disconnect LFO </button>
                     <br/>
@@ -567,25 +602,7 @@ class App extends Component {
                         />
                 </div>
             </div>
-            <Knob
-                style= { {
-                    width: "20px",
-                    height: "20px",
-                }}
-                min={0}
-                max={2}
-                value={this.state.i}
-                onChange = {this.setI}
-                unlockDistance={1}
-            />
-            <ScreenManager
-                currentScreen={this.state.currentScreen}
-                updateScreen={this.updateScreen}
-                screens={[
-                    <Screen />,
-                    <Screen2 />
-                ]}
-            />
+
         </div>);
     }
 }
