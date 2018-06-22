@@ -1,3 +1,8 @@
+import React, { Component } from 'react'
+import Screen from 'components/Screen'
+import Screen2 from 'components/Screen2'
+
+
 const noteMap = {
 	65: "C",
 	87: "C#",
@@ -15,5 +20,10 @@ const noteMap = {
 	79: "C#",
 	76: "D",
 }
+const scComps = [
+	<Screen updateScreen = {this.updateScreen}/>,
+	<Screen2 />
+]
 
+export {scComps};
 export {noteMap};

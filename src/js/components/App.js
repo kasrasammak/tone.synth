@@ -4,10 +4,12 @@ import { Knob } from 'react-rotary-knob';
 import { Transport } from 'tone'
 import { Tone } from 'tone';
 import { Master } from 'tone';
-
+import Screen from 'components/Screen'
+import Screen2 from 'components/Screen2'
 
 
 import { noteMap } from 'config';
+import { scComps } from 'config';
 
 
 class App extends Component {
@@ -15,7 +17,7 @@ class App extends Component {
        super(props);
        this.pressedKeys = [];
    }
-
+ 
     state = {
         knobValueOsc : 0, 
         knobValueOscPhase : 0,
@@ -36,8 +38,14 @@ class App extends Component {
         knobFilterFreqMin : 20,
         knobFilterFreqMax : 20000,
         knobValuePingPongWet : .5,
+        i : 0,
+        screen : 1,
     }
 
+    updateScreen = (val) => {
+        this.setState({screen: val})
+        console.log(this.state.screen)
+    }
 
 
 
@@ -55,7 +63,7 @@ class App extends Component {
         const osc = this.props.osc;
         osc.type = event.target.value;
     }
-   
+
 
 
 
@@ -219,6 +227,10 @@ class App extends Component {
         this.setState( { knobValueBitCrushWet : val.toFixed(2) } );
         bitcrush.wet.value =  val;
     }
+    setI = (val) => {
+        this.setState( {i : Math.floor(val)})
+    }
+   
 
     tester = (event, value) => {
         console.log('tester running');
@@ -317,6 +329,7 @@ class App extends Component {
     
         return (
         <div>
+            
             <div>
                 <span>
                     <h1>Welcome to Kasra's tone.js Synthesizer.</h1>
@@ -412,8 +425,8 @@ class App extends Component {
                         <button onClick={this.disconnectMaster}>Disconnect from Master</button>
                     </div>
                 </div>
-                <br />
                 <div class = "grid-item4" id="filterfreq">
+                    <h2>Filter</h2>
                     <h3>Filter Freq: <br/>{this.state.knobValueFiltFreq}</h3>
                     <Knob 
                         // USEFUL CODE-INFO FOR LATER STYLES
@@ -562,7 +575,20 @@ class App extends Component {
                             unlockDistance={1}
                         />             
                 </div>             
-            </div>                      
+            </div> 
+            <Knob 
+                style= { {
+                    width: "20px",
+                    height: "20px",
+                }}
+                min={0}
+                max={2}
+                value={this.state.i}
+                onChange = {this.setI}
+                unlockDistance={1}
+            />
+            {scComps[this.state.i]}        
+            {/* <Screen updateScreen={this.updateScreen}/> */}
         </div>);
     }
 }
