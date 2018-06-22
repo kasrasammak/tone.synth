@@ -35,5 +35,6 @@ ReactDOM.render(
     pingpong = {pingpong}
     env={env}
     lfo={lfo}
+    bitcrush = {bitcrush}
     // transport={transport}
 />, document.getElementById('root'));

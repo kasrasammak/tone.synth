@@ -2,10 +2,15 @@
     text-align: center;
 }
 
-h1, h2, h3 {
+h1, h2 {
     /* color: white; */
     font-family: Georgia;
     font-size: 20px;
+    text-align: center;
+}
+h3 {
+    font-family: Georgia;
+    font-size: 17px;
     text-align: center;
 }
 
@@ -14,7 +19,7 @@ p, span {
     font-size: 15px;
 }
 #connections {
-    background-color: darkcyan;
+    background-color: lightcoral;
     /* width: 20%; */
 }
 
@@ -25,7 +30,11 @@ p, span {
 }
 #oscfreq {
     background-color: aquamarine;
-    /* width: 7%; */
+    width:70%;
+}
+#oscphase {
+    background-color: azure;
+    width: 70%;
 }
 #filterfreq {
     background-color: skyblue;
@@ -34,13 +43,16 @@ p, span {
     /* bottom: 130px;
     left: 200px; */
 }
-#feedback {
+#ppfeedback {
     background-color: lightgoldenrodyellow;
  
 }
-#delaytime {
+#ppdelaytime {
     background-color: bisque;
 
+}
+#ppwet {
+    background-color: snow;
 }
 #pingpong {
     background-color: antiquewhite;
@@ -51,7 +63,7 @@ p, span {
      /* bottom: 100px; */
 }
 #lfo{
-    background-color: grey;
+    background-color: lavenderblush;
 }
 #Rememberfootnote {
    
@@ -71,6 +83,12 @@ p, span {
     /* background-color: lightblue; */
     width:800px;
 }
+.oscknobgrid {
+    display: grid;
+    /* grid-template-columns: auto auto auto; */
+    /* margin-left: auto;
+    margin-right: auto; */
+}
 
 .grid-container > div {
     /* background-color: rgba(255, 255, 255, .8); */
@@ -79,38 +97,62 @@ p, span {
     padding: 5px;
     box-sizing: border-box;
     /* height: 370px; */
+    border-radius: 10px;
   }
 .grid-item1{
     grid-column-start: 1;
     grid-column-end: 3;
 }
 .grid-item2{
-    grid-column-start: 4;
+    grid-column-start: 3;
     grid-column-end: 5;
 }
-.grid-item3{
+
+.grid-item4{
     grid-column-start: 1;
     grid-column-end: 2;
 }
-.grid-item4{
+.grid-item5{
     grid-column-start: 2;
     grid-column-end: 3;
 }
-.grid-item5{
+.grid-item6{
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+.grid-item7{
     grid-column-start: 4;
     grid-column-end: 5;
 }
-.grid-item6{
+
+.oscknob1{
     grid-column-start: 1;
+    grid-column-end: 2;
+}
+.oscknob2 {
+    grid-column-start: 2;
     grid-column-end: 3;
 }
 
+#lfofrequency {
+    background-color: lightgrey
+}
+#lfoamplitude {
+    background-color: floralwhite;
+}
+
 #instructions {
+    background-color: lightskyblue;
+    border-radius: 10px;
     border-style: solid;
     width: 235px;
     margin-left: auto;
     margin-right: auto;
     padding: 10px;
     text-align: left;
+
+}
+#bitcrusher {
+    background-color:thistle;
 
 }

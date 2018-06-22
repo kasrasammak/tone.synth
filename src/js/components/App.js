@@ -18,6 +18,7 @@ class App extends Component {
 
     state = {
         knobValueOsc : 0, 
+        knobValueOscPhase : 0,
         knobValueFiltFreq : 0,
         knobValueFiltGain : 0.1,
         knobValuePingPongTime : 0.4,
@@ -29,7 +30,12 @@ class App extends Component {
         selectedNodeOutput : this.props.osc,
         knobValueLFOFreq : 0,
         knobValueLFOAmp : 1,
+        knobValueBitCrushDepth : 4,
+        knobValueBitCrushWet : .5, 
         LFOConnected: "Disconnected",
+        knobFilterFreqMin : 20,
+        knobFilterFreqMax : 20000,
+        knobValuePingPongWet : .5,
     }
 
 
@@ -49,7 +55,7 @@ class App extends Component {
         const osc = this.props.osc;
         osc.type = event.target.value;
     }
-
+   
 
 
 
@@ -92,6 +98,8 @@ class App extends Component {
         this.setState({selectedNodeOutput : node});
     }
 
+
+
     // // consider making a connect multiple inputs function later
     // connectToFilter = (event) => {
     //     const { osc, poly, filt } = this.props;
@@ -102,7 +110,11 @@ class App extends Component {
 
 
 
-
+    setOscPhase = (val) => {
+        const osc = this.props.osc
+        osc.phase = val;
+        this.setState({knobValueOscPhase : Math.floor(val)})
+    }
 
     setOscFreq = (value) => {
 
@@ -126,9 +138,9 @@ class App extends Component {
         const min = 20;
         const max = 20000;
         const position = value;
-        const minp = 20;
+        const minp = this.state.knobFilterFreqMin;
         console.log("Minp=" +minp);
-        const maxp = 20000;
+        const maxp = this.state.knobFilterFreqMax;
         console.log("Maxp=" + maxp);
         const minv = Math.log(min)/Math.log(2);
         console.log("Minv=" + minv);
@@ -142,19 +154,19 @@ class App extends Component {
         this.setState( { knobValueFiltFreq: Math.floor(value2) } );
 
     }
-    setFiltGain = (value) => {
+    setFiltGain = (val) => {
 
-        console.log(value);
-        this.setState( { knobValueFiltGain: Math.floor(value) } );
+        console.log(val);
+        this.setState( { knobValueFiltGain: Math.floor(val) } );
         const {filt} = this.props;
-        filt.gain.value = value;
+        filt.gain.value = val;
         console.log(filt.gain.value);
 
     }    
     setPingPongTime = (value) => {
 
         console.log(value);
-        this.setState( { knobValuePingPongTime: value  } );
+        this.setState( { knobValuePingPongTime: value.toFixed(2)  } );
         const {pingpong} = this.props;
         pingpong.delayTime.value = value;
 
@@ -163,12 +175,17 @@ class App extends Component {
     setPingPongFeedback = (value) => {
 
         console.log(value);
-        this.setState( { knobValuePingPongFeedback: value } );
+        this.setState( { knobValuePingPongFeedback: value.toFixed(2) } );
         const {pingpong} = this.props;
         pingpong.feedback.value = value;
 
 
     }   
+    setPingPongWet = (val) => {
+        this.setState ( {knobValuePingPongWet: val.toFixed(2)})
+        const {pingpong} = this.props;
+        pingpong.wet.value = val;
+    }
     setLFOFreq = (value) => {
         this.setState( { knobValueLFOFreq : Math.floor(value) } );
         const {lfo} = this.props;
@@ -177,7 +194,7 @@ class App extends Component {
         
     }
     setLFOAmp = (value) => {
-        this.setState( { knobValueLFOAmp: value } );
+        this.setState( { knobValueLFOAmp: value.toFixed(2) } );
         const {lfo} = this.props;
         lfo.amplitude.value = value;
     }
@@ -192,7 +209,16 @@ class App extends Component {
         lfo.disconnect();
         this.setState( { LFOConnected : "Disconnected" } );
     }
-
+    setBitCrushDepth = (val) => {
+        const {bitcrush} = this.props;
+        this.setState( { knobValueBitCrushDepth : Math.floor(val) } );
+        bitcrush.bits =  Math.floor(val);
+    }
+    setBitCrushWet = (val) => {
+        const {bitcrush} = this.props;
+        this.setState( { knobValueBitCrushWet : val.toFixed(2) } );
+        bitcrush.wet.value =  val;
+    }
 
     tester = (event, value) => {
         console.log('tester running');
@@ -298,7 +324,7 @@ class App extends Component {
             </div>
             <div id="instructions"> 
                 <span id="instructions1">
-                    Feel Free to play with the Keyboard
+                    Feel free to play with the keyboard
                     <br/>
                     <span id="Rememberfootnote"> 
                         Remember to input a source sound to an output
@@ -322,9 +348,37 @@ class App extends Component {
                         <option>sawtooth</option>
                     </select>
                     <br/>
-                    <button onClick= {(event) => { this.startStopOsc(event, 2)}}>Play</button>
+                    <div class = "oscknobgrid">
+                        <div class = "oscknob1" id="oscfreq">            
+                            <h3>Osc Freq: <br/>{this.state.knobValueOsc}</h3>
+                            <Knob
+                                style={ {
+                                    width:"40px",
+                                    height: "40px",
+                                }}
+                                min={20}
+                                max={20000}
+                                value={this.state.knobValueOsc}
+                                onChange={this.setOscFreq}
+                                unlockDistance={1}
+                            />
+                        </div>
+                        <div class = "oscknob2" id="oscphase">            
+                            <h3>Osc Phase: <br/>{this.state.knobValueOscPhase}</h3>
+                            <Knob
+                                style={ {
+                                    width:"40px",
+                                    height: "40px",
+                                }}
+                                min={0}
+                                max={360}
+                                value={this.state.knobValueOscPhase}
+                                onChange={this.setOscPhase}
+                                unlockDistance={1}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <br/>
                 <div class = "grid-item2" id="connections">
                     <h2>Connections</h2>
                     <span>Input: </span>
@@ -345,8 +399,9 @@ class App extends Component {
                     <button onClick={this.connect}>Connect</button>       
                     <button onClick={this.disconnect}>Disconnect</button>
                     <br/>
-                    <br/>
+                    <span id="connectionstart">**START HERE BELOW</span>
                     <div>
+
                         <select onChange={this.selectNode} id="toMasterNode" name="audioNode">
                             {nodes.map( (node) => {
                                 return <option key={node} value={node}>{node.toUpperCase()}</option>
@@ -358,29 +413,19 @@ class App extends Component {
                     </div>
                 </div>
                 <br />
-                <div class = "grid-item3" id="oscfreq">            
-                    <h3>Osc Freq: {this.state.knobValueOsc}</h3>
-                    <Knob 
-                        min={20}
-                        max={20000}
-                        value={this.state.knobValueOsc}
-                        onChange={this.setOscFreq}
-                        unlockDistance={1}
-                    />
-                </div>
                 <div class = "grid-item4" id="filterfreq">
-                    <h3>Filter Freq: {this.state.knobValueFiltFreq}</h3>
+                    <h3>Filter Freq: <br/>{this.state.knobValueFiltFreq}</h3>
                     <Knob 
                         // USEFUL CODE-INFO FOR LATER STYLES
-                        // style={ {
-                        //     width: "30px",
-                        //     // marginTop: "8rem",
-                        //     // marginLeft: "8rem",
-                        //     height: "30px",
-                        //     // display: "inline-block"
-                        //   } }
-                        min={20}
-                        max={20000}
+                        style={ {
+                            width: "40px",
+                            height: "40px",
+                            // marginTop: "8rem",
+                            // marginLeft: "8rem",
+                            // display: "inline-block"
+                          } }
+                        min={this.state.knobFilterFreqMin}
+                        max={this.state.knobFilterFreqMax}
                         value={this.state.knobValueFiltFreq}
                         onChange={this.setFiltFreq}
                         unlockDistance={1}
@@ -391,8 +436,12 @@ class App extends Component {
                         <option>bandpass</option>
                         <option>notch</option>
                     </select>
-                    <h3>Filter Gain: {this.state.knobValueFiltGain}</h3>
+                    <h3>Filter Gain: <br/>{this.state.knobValueFiltGain}</h3>
                     <Knob 
+                        style={ {
+                            width:"40px",
+                            height: "40px",
+                        }}
                         min={1}
                         max={200}
                         value={this.state.knobValueFiltGain}
@@ -401,51 +450,118 @@ class App extends Component {
                     />
                 </div>
                 <div class = "grid-item5" id= "pingpong">
-                    <div id = "delaytime">
-                        <h3> Ping Pong Delay Time: {this.state.knobValuePingPongTime}</h3>
-                        <Knob 
-                            min={0}
-                            max={1}
-                            value={this.state.knobValuePingPongTime}
-                            onChange={this.setPingPongTime}
-                            unlockDistance={1}
-                        />
-                    </div>
-                    <div id="feedback">
-                        <h3> Ping Pong Delay Feedback: {this.state.knobValuePingPongFeedback}</h3>
-                        <Knob 
-                            min={0}
-                            max={1}
-                            value={this.state.knobValuePingPongFeedback}
-                            onChange={this.setPingPongFeedback}
-                            unlockDistance={1}
-                        /> 
+                    <h2> Ping Pong Delay</h2>
+                    <div class="ppgrid">
+                        <div class = "pp1" id = "ppdelaytime">
+                            <h3> Delay Time: <br/>{this.state.knobValuePingPongTime}</h3>
+                            <Knob
+                                style={ {
+                                    width:"40px",
+                                    height: "40px",
+                                }}                     
+                                min={0}
+                                max={1}
+                                value={this.state.knobValuePingPongTime}
+                                onChange={this.setPingPongTime}
+                                unlockDistance={1}
+                            />
+                        </div>
+                        <div class="pp2"id="ppfeedback">
+                            <h3> Feedback: <br/>{this.state.knobValuePingPongFeedback}</h3>
+                            <Knob 
+                                style={ {
+                                    width:"40px",
+                                    height: "40px",
+                                }}                    
+                                min={0}
+                                max={1}
+                                value={this.state.knobValuePingPongFeedback}
+                                onChange={this.setPingPongFeedback}
+                                unlockDistance={1}
+                            /> 
+                        </div>
+                        <div class ="pp3"id="ppwet">
+                            <h3> Dry/Wet: <br/>{this.state.knobValuePingPongWet}</h3>
+                            <Knob 
+                                style={ {
+                                    width:"40px",
+                                    height: "40px",
+                                }}                    
+                                min={0}
+                                max={1}
+                                value={this.state.knobValuePingPongWet}
+                                onChange={this.setPingPongWet}
+                                unlockDistance={1}
+                            /> 
+                        </div>
                     </div>
                 </div> 
                 <div class = "grid-item6" id="lfo">
+                <h2>LFO</h2>
                     <button onClick={this.turnLFOon}>Turn LFO On</button>
                     <button onClick={this.disconnectLFO}>Disconnect LFO </button>
                     <br/>
                     <span> {this.LFOConnected} </span>
-                    <h3> LFO Frequency: {this.state.knobValueLFOFreq}</h3>
-                    <Knob 
-                        min={0}
-                        max={65}
-                        value={this.state.knobValueLFOFreq}
-                        onChange={this.setLFOFreq}
-                        unlockDistance={1}
-                    /> 
-                    <h3> LFO Amplitude: {this.state.knobValueLFOAmp}</h3>
-                    <Knob 
-                        min={0}
-                        max={1}
-                        value={this.state.knobValueLFOAmp}
-                        onChange={this.setLFOAmp}
-                        unlockDistance={1}
-                    />
+                    <div id="lfofrequency">
+                        <h3> LFO Frequency: <br/>{this.state.knobValueLFOFreq}</h3>
+                        <Knob 
+                            style={ {
+                                width:"40px",
+                                height: "40px",
+                            }}
+                            min={0}
+                            max={65}
+                            value={this.state.knobValueLFOFreq}
+                            onChange={this.setLFOFreq}
+                            unlockDistance={1}
+                        /> 
+                    </div>
+                    <div id="lfoamplitude">
+                    
+                        <h3> LFO Amplitude: <br/>{this.state.knobValueLFOAmp}</h3>
+                        <Knob 
+                            style={ {
+                                width:"40px",
+                                height: "40px",
+                            }}                    
+                            min={0}
+                            max={1}
+                            value={this.state.knobValueLFOAmp}
+                            onChange={this.setLFOAmp}
+                            unlockDistance={1}
+                        />
+                    </div>
                     <span id="lfofoot">
                     **LFO only connects to the Filter Frequency.</span>                     
-                </div>                
+                </div> 
+                <div class ="grid-item7" id= "bitcrusher">
+                    <h2>Bit Crusher</h2>
+                    
+                    <h3> Bit Depth: <br/>{this.state.knobValueBitCrushDepth}</h3>
+                        <Knob 
+                            style={ {
+                                width:"40px",
+                                height: "40px",
+                            }}
+                            min={1}
+                            max={8}
+                            value={this.state.knobValueBitCrushDepth}
+                            onChange={this.setBitCrushDepth}
+                            unlockDistance={1}
+                        />
+                    <h3> Dry/Wet: <br/>{this.state.knobValueBitCrushWet}</h3>
+                        <Knob 
+                            style={ {
+                                width:"40px",
+                                height: "40px",
+                            }}
+                            min={0}
+                            max={1}
+                            value={this.state.knobValueBitCrushWet}
+                            onChange={this.setBitCrushWet}
+                            unlockDistance={1}
+                        />             
+                </div>             
             </div>                      
         </div>);
     }
