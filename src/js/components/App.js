@@ -39,7 +39,8 @@ class App extends Component {
         knobFilterFreqMin : 20,
         knobFilterFreqMax : 20000,
         knobValuePingPongWet : .5,
-        currentScreen : 0
+        currentScreen : 0,
+        knobValuePanner :  0
     }
 
     updateScreen = (currentScreen) => {
@@ -213,6 +214,11 @@ class App extends Component {
         const {bitcrush} = this.props;
         this.setState( { knobValueBitCrushWet : val.toFixed(2) } );
         bitcrush.wet.value =  val;
+    }
+    setPan = (val) => {
+        const {pan} = this.props;
+        this.setState( {knobValuePanner : val.toFixed(2)} );
+        pan.pan.value = val;
     }
 
 
@@ -488,7 +494,22 @@ class App extends Component {
                         <h2>Bit Crusher</h2>
                     </div>
                 </div>
-                <div onClick={() => this.updateScreen(2)}className="grid-item5" id= "pingpong">
+                <div class="panner">
+                <h2>Panner</h2>
+                    <h3>Pan: <br/>{this.state.knobValuePanner}</h3>
+                    <Knob
+                        style={ {
+                            width: "40px",
+                            height: "40px",
+                          } }
+                        min={-1}
+                        max={1}
+                        value={this.state.knobValuePanner}
+                        onChange={this.setPan}
+                        unlockDistance={1}
+                    />    
+                </div>
+                {/* <div onClick={() => this.updateScreen(2)}className="grid-item5" id= "pingpong">
                     <h2> Ping Pong Delay</h2>
                     <div className="ppgrid">
                         <div className="pp1" id = "ppdelaytime">
@@ -600,7 +621,7 @@ class App extends Component {
                             onChange={this.setBitCrushWet}
                             unlockDistance={1}
                         />
-                </div>
+                </div> */}
             </div>
 
         </div>);
@@ -608,4 +629,3 @@ class App extends Component {
 }
 
 export default App;
-

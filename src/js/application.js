@@ -15,6 +15,7 @@ import {Transport} from 'tone'
 import {PingPongDelay} from 'tone'
 import {BitCrusher} from 'tone'
 import {LFO} from 'tone'
+import {Panner} from  'tone'
 
 let osc = new Oscillator("C1");
 let filt = new Filter();
@@ -24,6 +25,8 @@ let pingpong = new PingPongDelay();
 let bitcrush = new BitCrusher();
 let poly = new PolySynth(4, Synth);
 let lfo = new LFO(1, 400, 4000);
+let pan = new Panner();
+
 
 import 'css/app.css';
 
@@ -36,5 +39,6 @@ ReactDOM.render(
     env={env}
     lfo={lfo}
     bitcrush = {bitcrush}
+    pan = {pan}
     // transport={transport}
 />, document.getElementById('root'));
