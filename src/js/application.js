@@ -17,7 +17,7 @@ import {BitCrusher} from 'tone'
 import {LFO} from 'tone'
 import {Panner} from  'tone'
 
-let osc = new Oscillator("C1");
+let osc = new Oscillator("C1", "sawtooth");
 let filt = new Filter();
 let env = new MyEnvelope();
 // let transport = new Transport();

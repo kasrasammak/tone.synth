@@ -148,17 +148,16 @@ class App extends Component {
         filt.frequency.value = value2;
         this.setState( { knobValueFiltFreq: Math.floor(value2) } );
         console.log(filt);
-
     }
-    setFiltGain = (val) => {
+    // setFiltGain = (val) => {
 
-        console.log(val);
-        this.setState( { knobValueFiltGain: Math.floor(val) } );
-        const {filt} = this.props;
-        filt.gain.value = val;
-        console.log(filt.gain.value);
+    //     console.log(val);
+    //     this.setState( { knobValueFiltGain: Math.floor(val) } );
+    //     const {filt} = this.props;
+    //     filt.gain.value = val;
+    //     console.log(filt.gain.value);
 
-    }
+    // }
     setPingPongTime = (value) => {
 
         console.log(value);
@@ -301,6 +300,8 @@ class App extends Component {
     componentDidMount() {
         window.addEventListener("keydown", this.handleKeyDown);
         window.addEventListener("keyup", this.handleKeyUp);
+        const {osc} = this.props;
+        osc.toMaster();
     }
 
     componentWillUnmount() {
