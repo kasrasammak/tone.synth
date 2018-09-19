@@ -92,15 +92,16 @@ var app = {
 
 // call the init functions
 app.initSynth();
+// app.synth.toMaster();
 app.initFilter(20, "highpass", -24);
-app.connectToMaster(app.filter);
+// app.connectToMaster(app.filter);
 
-app.synth.connect(app.filter);
+// app.synth.connect(app.filter);
 app.initDist(.4);
-app.connectToMaster(app.dist);
+// app.connectToMaster(app.dist);
 app.initPPDelay(.25,.1);
-app.connectToMaster(app.ppdelay);
-app.initLFO(1, 400, 10000);
+// app.connectToMaster(app.ppdelay);
+// app.initLFO(1, 400, 10000);
 
 
 
@@ -113,9 +114,7 @@ app.initLFO(1, 400, 10000);
 //octave variable to 3rd octave (C3)
 var oct = 3;
 //notes of the keyboard
-var note = {
-	name: null,
-	number: null,
+var noteMap = {
 	65: "C",
 	87: "C#",
 	83: "D",
@@ -410,23 +409,23 @@ document.querySelector('#synthB').addEventListener('mouseup', function(){app.pla
 //Keyboard Listener
 window.addEventListener("keydown", function(event) {
 	// event.preventDefault();
-	note.number = event.keyCode;
-	note.name = note[note.number];
-    if (note.name != undefined && !pressedKeys.includes(event.keyCode)) {
+	var keyCode = event.keyCode;
+	var note = noteMap[keyCode];
+    if (note != undefined && !pressedKeys.includes(keyCode)) {
 		pressedKeys.push(event.keyCode);
-		if (note.number === 75 || note.number === 79 || note.number === 76) {
-			oct = oct + 1;
-			app.playAttack(`${note.name}${oct}`);
-			oct = oct - 1;
+		if (note === 75 || note === 79 || note === 76) {
+			
+			app.playAttack(`${note}${oct + 1}`);
+			
 		}
         else{
-			app.playAttack(`${note.name}${oct}`);
+			app.playAttack(`${note}${oct}`);
 		}
     }
-	if (event.keyCode === 90){
+	if (keyCode === 90){
 		oct = oct - 1;
 	}
-	if (event.keyCode === 88){
+	if (keyCode === 88){
 		oct = oct + 1;
 	}
 });
@@ -436,16 +435,16 @@ window.addEventListener("keyup", function(event) {
 	var keyIndex = pressedKeys.indexOf(event.keyCode);
 	if(keyIndex !== -1) {
 		pressedKeys.splice(keyIndex, 1);
-		note.number = event.keyCode;
-		note.name = note[note.number];
-    	if (note.name != undefined) {
-			if (note.number === 75 || note.number === 79 || note.number === 76) {
-				oct = oct + 1;
-				app.playRelease(`${note.name}${oct}`);
-				oct = oct - 1;
+		var keyCode = event.keyCode;
+		var note = note[keyCode];
+    	if (note != undefined) {
+			if (keyCode === 75 || keyCode === 79 || keyCode === 76) {
+				
+				app.playRelease(`${note}${oct + 1}`);
+				
 			}
       	  else{
-				app.playRelease(`${note.name}${oct}`);
+				app.playRelease(`${note}${oct}`);
 			}
 		}
 }

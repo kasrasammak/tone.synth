@@ -40,5 +40,4 @@ ReactDOM.render(
     lfo={lfo}
     bitcrush = {bitcrush}
     pan = {pan}
-    // transport={transport}
 />, document.getElementById('root'));
