@@ -17,11 +17,11 @@ export default class ScreenManager extends Component {
 		const currentScreen = screens[this.props.currentScreen];
 
 		return (
-			<div>
+			<div class="settingsarea">
 
-				<div className="screen-content">
+				{/* <div> */}
 					{currentScreen}
-				</div>
+				{/* </div> */}
 
 				{/* <div className="screen-controls">
 					{screens.map( (screen, i) => {

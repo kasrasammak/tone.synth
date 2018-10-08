@@ -14,7 +14,7 @@ class FilterType extends Component {
         this.setState({isToggle: false})
         this.setState({filtType : "highpass"})
         const filt = this.props.myFilt;
-        filt.type = this.state.filtType;
+        filt.type = "highpass";
       
     }
 
@@ -23,7 +23,7 @@ class FilterType extends Component {
         this.setState({isToggle: false})
         this.setState({filtType : "lowpass"})
         const filt = this.props.myFilt;
-        filt.type = this.state.filtType;
+        filt.type = "lowpass";
         
         
     }
@@ -33,7 +33,7 @@ class FilterType extends Component {
         this.setState({isToggle: false})
         this.setState({filtType : "bandpass"})
         const filt = this.props.myFilt;
-        filt.type = this.state.filtType;
+        filt.type = "bandpass";
        
     
     }
@@ -43,7 +43,7 @@ class FilterType extends Component {
         this.setState({filtertype: "notchabove" })
         this.setState({filtType : "notch"})
         const filt = this.props.myFilt;
-        filt.type = this.state.filtType;
+        filt.type = "notch";
     }
 
 

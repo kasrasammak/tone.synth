@@ -8,7 +8,7 @@ import { Master } from 'tone';
 
 
 import ScreenManager from 'components/ScreenManager';
-import Screen from 'components/Screen';
+import BitCrushScreen from 'components/BitCrushScreen';
 import LFOScreen from 'components/LFOScreen';
 import PingPongScreen from './PingPongScreen';
 
@@ -16,6 +16,8 @@ import { noteMap } from 'config';
 import MyComponent from './MyComponent';
 import Key from './Key'
 import FilterType from './FilterType'
+
+import OscSelect from './OscSelect'
 
 const Comp = (props) => {
     return(
@@ -34,6 +36,7 @@ class App extends Component {
         knobValueOsc : 0,
         knobValueOscPhase : 0,
         knobValueFiltFreq : 0,
+        knobValueFiltRes : 0,
         knobValueFiltGain : 0.1,
         knobValuePingPongTime : 0.4,
         knobValuePingPongFeedback : 0.4,
@@ -50,7 +53,7 @@ class App extends Component {
         knobFilterFreqMin : 20,
         knobFilterFreqMax : 20000,
         knobValuePingPongWet : .5,
-        currentScreen : 0,
+        currentScreen : 1,
         knobValuePanner :  0,
 
         colora : {background : "lightgrey"},
@@ -74,6 +77,33 @@ class App extends Component {
         coloroct : {background : "lightgrey"},
         openfiltertype : {height: "24px" },
         filteropen : false,
+        openoscwav : "osctype",
+        oscwavopen : false,
+        osctype : "oscsource",
+        osctypeopen: false,
+        filtonoffoval: "offoval",
+        filtonoffcircle: "offcircle",
+        filtonoff: false,
+
+        oscselectclass: "osc one",
+
+        delaysettings: "setting off delay",
+        lfosettings: "setting on lfo",
+        crushsettings: "setting off bitcrush",
+
+        hoverlfo: false,
+        hoverdelay: false,
+        hoverbitcrush: false,
+
+        isLFOOn : false,
+        isDelayOn : false,
+        isBitCrushOn : false,
+        lfoonoffoval: "offoval",
+        lfoonoffcircle: "offcircle",
+        delayOnOffOval: "offoval",
+        delayOnOffCircle: "offcircle",
+        bitCrushOnOffOval: "offoval",
+        bitCrushOnOffCircle: "offcircle",
         
    
         keyCode : 65,
@@ -91,6 +121,69 @@ class App extends Component {
             this.setState({filteropen: false})
         }
     }
+    openOscWav = () => {
+        console.log(this.state.openoscwav)
+        if (this.state.openoscwav ===  "osctype")
+            {
+                this.setState({openoscwav: "osctype open"})
+                this.setState({oscwavopen: true})
+            }
+        else {
+            this.setState({openoscwav: "osctype"})
+            this.setState({oscwavopen: false})
+        }
+    }
+    oscTypeClick = () => {
+        if (this.state.osctype === "oscsource")
+        {
+            this.setState({osctype: "oscsource openn"})
+            this.setState({osctypeopen: true})
+        }
+        else {
+            this.setState({osctype: "oscsource"})
+            this.setState({osctypeopen: false})
+        }
+    }
+    turnFiltOnOff = () => {
+        if (this.state.filtonoffoval === "offoval")
+        {
+            this.setState({filtonoffoval: "onoval"})
+        }
+        else 
+        {
+            this.setState({filtonoffoval: "offoval"})
+        }
+        if (this.state.filtonoffcircle === "offcircle")
+        {
+            this.setState({filtonoffcircle: "oncircle"})
+        }
+        else 
+        {
+            this.setState({filtonoffcircle: "offcircle"})
+        }
+        
+        this.setState({filtonoff: !this.state.filtonoff})
+        
+    }
+    attachFilt = () => {
+        const { osc , filt } = this.props;
+        if (!this.state.filtonoff) 
+        {
+            console.log(filt);
+            osc.disconnect();
+            filt.rolloff = -96;
+            filt.toMaster();
+            osc.connect(filt);
+        }
+        else if (this.state.filtonoff)
+        {
+            osc.disconnect(filt)
+            filt.disconnect();
+            osc.toMaster();
+
+        }
+    }
+
     setColor = (color) => {
         this.setState({color})
     }
@@ -114,6 +207,22 @@ class App extends Component {
         console.log(event.target.value);
         const osc = this.props.osc;
         osc.type = event.target.value;
+    }
+    changeSine = (e) => {
+        const osc = this.props.osc;
+        osc.type = "sine"
+    }
+    changeSquare = (e) => {
+        const osc = this.props.osc;
+        osc.type = "square"
+    }
+    changeSaw = (e) => {
+        const osc = this.props.osc;
+        osc.type = "sawtooth"
+    }
+    changeTriangle = (e) => {
+        const osc = this.props.osc;
+        osc.type = "triangle"
     }
 
     connectMaster = (event) => {
@@ -151,6 +260,70 @@ class App extends Component {
         const node = this.props[event.target.value];
         console.log(node);
         this.setState({selectedNodeOutput : node});
+    }
+
+    changeSettingsDelay = (e) => {
+        if (this.state.delaysettings == "setting off delay") {
+            this.setState({delaysettings: "setting on delay"})
+            this.setState({hoverdelay: false}) 
+            this.setState({lfosettings: "setting off lfo"})
+            this.setState({crushsettings: "setting off bitcrush"})
+        }
+        this.setState({currentScreen: 2})
+    }
+    changeSettingsLFO = (e) => {
+        if (this.state.lfosettings == "setting off lfo") {
+            this.setState({delaysettings: "setting off delay"}) 
+            this.setState({lfosettings: "setting on lfo"})
+            this.setState({hoverlfo: false})
+            this.setState({crushsettings: "setting off bitcrush"})
+        }
+        this.setState({currentScreen: 1})
+    }
+    changeSettingsBitCrush= (e) => {
+        if (this.state.crushsettings == "setting off bitcrush") {
+            this.setState({delaysettings: "setting off delay"}) 
+            this.setState({lfosettings: "setting off lfo"})
+            this.setState({crushsettings: "setting on bitcrush"})
+            this.setState({hoverbitcrush: false})
+        }
+        this.setState({currentScreen: 0})
+    }
+
+    hoverLFO = () => {
+        if (this.state.lfosettings === "setting off lfo")
+        {
+           this.setState({hoverlfo: !this.state.hoverlfo}) 
+        }
+        else if (this.state.lfosettings === "setting on lfo") 
+        {
+            this.setState({hoverlfo: false})
+        }
+        
+    }
+
+    hoverDelay = () => {
+        if (this.state.delaysettings === "setting off delay")
+        {
+           this.setState({hoverdelay: !this.state.hoverdelay}) 
+        }
+        else if (this.state.delaysettings === "setting on delay") 
+        {
+            this.setState({hoverdelay: false})
+        }
+        
+    }
+
+    hoverBitCrush = () => {
+        if (this.state.crushsettings === "setting off bitcrush")
+        {
+           this.setState({hoverbitcrush: !this.state.hoverbitcrush}) 
+        }
+        else if (this.state.crushsettings === "setting on bitcrush") 
+        {
+            this.setState({hoverbitcrush: false})
+        }
+        
     }
 
 
@@ -203,6 +376,12 @@ class App extends Component {
         this.setState( { knobValueFiltFreq: Math.floor(value2) } );
         console.log(filt);
     }
+    setFiltRes = (val) => {
+        const { filt } = this.props;
+        filt.Q.value = val;
+        this.setState({knobValueFiltRes: val})
+
+    }
     // setFiltGain = (val) => {
 
     //     console.log(val);
@@ -240,6 +419,7 @@ class App extends Component {
         const {lfo} = this.props;
 
         lfo.frequency.value = value;
+        console.log(lfo.frequency.value)
 
     }
     setLFOAmp = (value) => {
@@ -258,6 +438,76 @@ class App extends Component {
         lfo.disconnect();
         this.setState( { LFOConnected : "Disconnected" } );
     }
+
+    // turnLFOOnOff = () => {
+    //     if (!isLFOOn) {
+    //         const {lfo, filt} = this.props;
+    //         lfo.connect(filt.frequency);
+    //         lfo.start(); 
+    //         this.setState( { isLFOOn : true } );
+    //     }
+    //     else {
+    //         const {lfo} = this.props;
+    //         lfo.disconnect();
+    //         this.setState( { isLFOOn : false } );
+    //     }
+    // }
+
+    changeLFOOnOff = () => {
+        if (!this.state.isLFOOn) {
+            this.setState({lfoonoffoval: "onoval"})
+            this.setState({lfoonoffcircle: "oncircle"})
+            console.log("isworking")
+            const {lfo, filt} = this.props;
+            lfo.connect(filt.frequency);
+            lfo.start(); 
+            this.setState( { isLFOOn : true } );
+            console.log("allgood")
+        }
+        else {
+            this.setState({lfoonoffoval: "offoval"})
+            this.setState({lfoonoffcircle: "offcircle"})
+            const {lfo} = this.props;
+            lfo.disconnect();
+            this.setState( { isLFOOn : false } );
+        }
+    }
+
+    turnDelayOnOff = () => {
+        if (!this.state.isDelayOn) {
+            this.setState({delayOnOffOval: "onoval"})
+            this.setState({delayOnOffCircle: "oncircle"})
+            const {osc, pingpong, filt} = this.props;
+            pingpong.toMaster();
+            filt.connect(pingpong);
+            this.setState( { isDelayOn : true } );
+        }
+        else {
+            this.setState({delayOnOffOval: "offoval"})
+            this.setState({delayOnOffCircle: "offcircle"})
+            const { pingpong } = this.props;
+            pingpong.disconnect();
+            this.setState( { isDelayOn : false } );
+        }
+    }
+    turnBitCrushOnOff = () => {
+        if (!this.state.isBitCrushOn) {
+            this.setState({bitCrushOnOffOval: "onoval"})
+            this.setState({bitCrushOnOffCircle: "oncircle"})
+            const {osc, bitcrush, filt} = this.props;
+            bitcrush.toMaster();
+            filt.connect(bitcrush);
+            this.setState( { isBitCrushOn : true } );
+        }
+        else {
+            this.setState({bitCrushOnOffOval: "offoval"})
+            this.setState({bitCrushOnOffCircle: "offcircle"})
+            const { bitcrush } = this.props;
+            bitcrush.disconnect();
+            this.setState( { isBitCrushOn : false } );
+        }
+    }
+
     setBitCrushDepth = (val) => {
         const {bitcrush} = this.props;
         this.setState( { knobValueBitCrushDepth : Math.floor(val) } );
@@ -575,6 +825,8 @@ class App extends Component {
         
         
         osc.toMaster();
+        console.log("THIS IS THE ")
+        console.log(this.state.filtonoff)
     }
 
     componentWillUnmount() {
@@ -585,7 +837,12 @@ class App extends Component {
 
 
     render () {
+
+
         console.log("RENDER APP");
+        console.log("This is " + this.state.filtonoff)
+
+
         // const {filt} = this.props;
         // console.log(filt.type)
         
@@ -599,6 +856,26 @@ class App extends Component {
         var divStyle = {
             display:this.state.filteropen?'block':'none'
           };
+
+        var divStyle2 = {
+            display:this.state.oscwavopen?'block':'none'
+          };
+
+        var divStyle3 = {
+            display: this.state.osctypeopen? 'block':'none'
+        }
+        var hoverlfostyle = {
+            background: this.state.hoverlfo? 'lightgrey':null,
+            // color: this.state.hoverlfo? 'white':null
+        }
+        var hoverdelaystyle = {
+            background: this.state.hoverdelay? 'lightgrey':null,
+            // color: this.state.hoverdelay? 'white':null
+        }
+        var hoverbitcrushstyle = {
+            background: this.state.hoverbitcrush? 'lightgrey':null,
+            // color: this.state.hoverbitcrush? 'white':null
+        }
 
         return (
         <div class="appbackground">
@@ -777,26 +1054,42 @@ class App extends Component {
                         <div class="filtertextscutoff">
                           Cutoff 
                         </div>
-                        <div class="knob big">
-                          <div class="knobtriangle"></div>
-                        </div>
+                        <Knob
+                            style={ {
+                                width: "45px",
+                                height: "45px",
+                            } }
+                            min={this.state.knobFilterFreqMin}
+                            max={this.state.knobFilterFreqMax}
+                            value={this.state.knobValueFiltFreq}
+                            onChange={this.setFiltFreq}
+                            unlockDistance={1}
+                         />
                         
                       </div>
                       <div class="filterres">
                         <div class="filtertextsres">
                           Resonance
                         </div>
-                        <div class="knob big">
-                          <div class="knobtriangle"></div>
-                        </div>
+                        <Knob
+                            style={ {
+                                width: "45px",
+                                height: "45px",
+                            } }
+                            min={0}
+                            max={6}
+                            value={this.state.knobValueFiltRes}
+                            onChange={this.setFiltRes}
+                            unlockDistance={1}
+                         />
                       </div>
                     </div> 
 
 
                     <div class="filteron">
-                      <div class="onoff clean">
-                        <div class="onoval"></div>
-                        <div class="oncircle"></div>
+                      <div onClick={this.attachFilt} class="onoff clean">
+                        <div onClick={this.turnFiltOnOff} class={this.state.filtonoffoval}></div>
+                        <div onClick={this.turnFiltOnOff} class={this.state.filtonoffcircle}></div>
                       </div>
                     </div>
                     
@@ -836,9 +1129,250 @@ class App extends Component {
                 </div>
             </div>
 
+            <div class="lowerchain">
+                        <div class="oscillators">
+                            <OscSelect 
+                            myOscStyle={divStyle2}
+                            onWavClick={this.openOscWav}
+                            myWavClass={this.state.openoscwav}
+                            oscTypeClick={this.oscTypeClick}
+                            oscTypeClass={this.state.osctype}
+                            divStyle={divStyle3}
+                            knobValueOsc={this.state.knobValueOsc}
+                            setOscFreq={this.setOscFreq}
+                            changeSine={this.changeSine}
+                            changeSquare={this.changeSquare}
+                            changeSaw={this.changeSaw}
+                            changeTriangle={this.changeTriangle}
+                            osc={this.props.osc}
+                            poly={this.props.poly}
+                            changeSelect={this.changeSelect}
+                            myClass={this.state.oscselectclass}
 
+                            />
+                            
 
+                            <div class="osc new">
+                            <div class="numbercontainer">
+                                <div class="addconn">
+                                <div class="plustext">+</div>
+                                </div>
+                            </div>
+                            <div class="addconnection">
+                                ADD CONNECTION
+                            </div>
+                            </div>
+                        </div>
+                        <div class="window">
+                            <div class="routing">
+                            <div class="routingtitle">
+                                <div class="routingtext"> ROUTING</div>
+                                
+                            </div>
+                            <div class="line routingl"></div>
+                            <div class="routingarea">
+                                
+                                <div class="pluscircles">
+                                <div class="pluscircleleft">
+                                    <div class="p12">+</div>
+                                </div>
+                                <div class="pluscircleright">
+                                    <div class="p12">+</div>
+                                </div>
+                                </div>
+                                
+                                
+                                <div class="grid">
+                            
+                                
+                                <div class="row">
 
+                                    <div class="nodeconnector"> 
+                                    <div class="node">
+                                        <div class="p">OSC</div>
+                                    </div>
+                                    <div class="connector"></div>
+                                    </div>
+
+                                
+
+                            
+                                
+                                
+                                </div>
+                                
+                                <div class="row2">
+                                    
+                                    
+                                    
+                                    <div class="wire2"></div>
+                                    <div class="lowwirebottom2"></div>
+                                    <div class="wire3"></div>
+                                    <div class="lowwirebottom"></div>
+                                    <div class="wire1"></div>
+                                    
+                                </div>
+                                <div class="row">
+                                    
+                                    <div class="nodeconnector"> 
+                                        <div class="connector"></div>
+                                        <div class="node green">
+                                        <div class="p">FILT</div>
+                                        </div>
+                                        <div class="connector"></div>
+                                    </div>
+                                    
+                                    <div class="nodeconnector"> 
+                                        <div class="connector"></div>
+                                        <div class="node green">
+                                        <div class="p">DELAY</div>
+                                        </div>
+                                        <div class="connector"></div>
+                                    </div>
+                                    
+                                    <div class="nodeconnector"> 
+                                        <div class="connector"></div>
+                                        <div class="node">
+                                        <div class="p"></div>
+                                        </div>
+                                        <div class="connector"></div>
+                                    </div>
+                                    
+                                    <div class="nodeconnector"> 
+                                        <div class="connector invis">
+                                        
+                                    </div>
+                                        <div class="node add">
+                                        <div class="p1">+</div>
+                                        </div>
+                                    
+                                    </div>
+                                    
+
+                                    
+                                </div>
+                                
+                                <div class="row2">
+
+                                        <div class="wire5"></div>
+                                        <div class="wire6"></div>
+                                        <div class="wire7"></div>
+                                        <div class="wire8"></div>
+                                        <div class="wire9"></div>
+                                        
+
+                                </div>
+                                
+                                <div class="row">
+                                    
+                                    <div class="nodeconnector"> 
+                                        <div class="connector"></div>
+                                        <div class="node">
+                                        <div class="p">CRUSH</div>
+                                        </div>
+                                        <div class="connector"></div>
+                                    </div>
+                                    
+                                <div class="nodeconnector"> 
+                                        <div class="connector invis">
+                                        
+                                    </div>
+                                        <div class="node add">
+                                        <div class="p1">+</div>
+                                        </div>
+                                    
+                                    </div> 
+                                    
+                                </div>
+                                
+                                <div class="row">
+                                
+                                    <div class="nodeconnector"> 
+
+                                        <div class="node add">
+                                        <div class="p1">+</div>
+                                        </div>
+                                    
+                                    </div>
+                                    
+                                </div>
+                                
+                                </div>  
+                            </div>
+                            </div>
+                            <div class="line separation"></div>
+                            <div class="settings">
+                            <div class="settingsoptions">
+                                <div 
+                                    onClick={this.changeSettingsLFO} 
+                                    class={this.state.lfosettings}
+                                    onMouseEnter={this.hoverLFO} 
+                                    onMouseLeave={this.hoverLFO} 
+                                    style = {hoverlfostyle}
+                                >
+                                    LFO
+                                </div>
+                                <div 
+                                    onClick={this.changeSettingsDelay} 
+                                    class={this.state.delaysettings}
+                                    onMouseEnter={this.hoverDelay}
+                                    onMouseLeave={this.hoverDelay}
+                                    style = {hoverdelaystyle}
+                                >
+                                    DELAY
+                                </div>
+                                <div 
+                                    onClick={this.changeSettingsBitCrush} 
+                                    class={this.state.crushsettings}
+                                    onMouseEnter={this.hoverBitCrush}
+                                    onMouseLeave={this.hoverBitCrush}
+                                    style = {hoverbitcrushstyle}
+                                >
+                                    BIT CRUSH
+                                </div>
+                            </div>
+                            <div class="line settingsl"></div>
+                            <ScreenManager
+                                currentScreen={this.state.currentScreen}
+                                updateScreen={this.updateScreen}
+                                screens={[
+                                    <BitCrushScreen 
+                                        knobDepthChange={this.setBitCrushDepth}
+                                        knobDepthValue={this.state.knobValueBitCrushDepth}
+                                        knobWetChange={this.setBitCrushWet}
+                                        knobWetValue={this.state.knobValueBitCrushWet}
+                                        changeOnOff={this.turnBitCrushOnOff}
+                                        onOffOval={this.state.bitCrushOnOffOval}
+                                        onOffCircle={this.state.bitCrushOnOffCircle}
+                                    />,
+                                    <LFOScreen 
+                                        
+                                        TurnLFOOn={this.turnLFOon} 
+                                        TurnLFOOff={this.disconnectLFO}
+                                        knobLFOFreqChange={this.setLFOFreq}
+                                        knobLFOFreqValue={this.state.knobValueLFOFreq}
+                                        knobLFOAmpChange={this.setLFOAmp}
+                                        knobLFOAmpValue={this.state.knobValueLFOAmp}
+                                        changeOnOff={this.changeLFOOnOff}
+                                        lfoonoffoval= {this.state.lfoonoffoval}
+                                        lfoonoffcircle= {this.state.lfoonoffcircle}
+                                    />,
+                                    <PingPongScreen
+                                        knobTimeChange={this.setPingPongTime}
+                                        knobTimeValue={this.state.knobValuePingPongTime}
+                                        knobFeedbackChange={this.setPingPongFeedback}
+                                        knobFeedbackValue={this.state.knobValuePingPongFeedback}
+                                        knobWetChange={this.setPingPongWet}
+                                        knobWetValue={this.state.knobValuePingPongWet}
+                                        changeOnOff={this.turnDelayOnOff}
+                                        onOffOval={this.state.delayOnOffOval}
+                                        onOffCircle={this.state.delayOnOffCircle}
+                                    />
+                                ]}
+                            />
+                        </div>
+                    </div>
+                </div>
 
             </div>
            
