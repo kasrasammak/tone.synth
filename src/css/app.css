@@ -725,6 +725,14 @@
     position: relative;
   
   }
+
+  .minustext {
+    margin: 0;
+    font-size: 40px;
+    bottom: 9px;
+    left: 10px;
+    position: relative;
+  }
   .addconnection {
     font-family: Verdana;
     color: lightblue;

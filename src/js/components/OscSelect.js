@@ -158,6 +158,9 @@ class OscSelect extends Component {
         
     }
     componentDidMount() {
+        if (this.props.number > 1) {
+            this.turnOscOnOff()
+        }
         
     }
     
@@ -187,7 +190,7 @@ class OscSelect extends Component {
                 <div onClick= {this.props.changeSelect} class={this.props.myClass}>
                     <div class="number">
                         <div class="textnumber">
-                        1
+                        {this.props.number}
                         </div>
                         
                     </div>

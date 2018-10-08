@@ -18,6 +18,7 @@ import Key from './Key'
 import FilterType from './FilterType'
 
 import OscSelect from './OscSelect'
+import OscAdds from './OscAdds'
 
 const Comp = (props) => {
     return(
@@ -25,6 +26,7 @@ const Comp = (props) => {
         </div>
     )
 }
+
 
 class App extends Component {
    constructor(props) {
@@ -55,6 +57,7 @@ class App extends Component {
         knobValuePingPongWet : .5,
         currentScreen : 1,
         knobValuePanner :  0,
+        knobValueVolume : 0,
 
         colora : {background : "lightgrey"},
         colorw : {background : "lightgrey"},
@@ -86,6 +89,7 @@ class App extends Component {
         filtonoff: false,
 
         oscselectclass: "osc one",
+        oscselectclass2: "osc",
 
         delaysettings: "setting off delay",
         lfosettings: "setting on lfo",
@@ -107,7 +111,11 @@ class App extends Component {
         
    
         keyCode : 65,
-        note : "C"
+        note : "C",
+
+        selectedNumbers : [],
+
+        number : 1
     }
     openFilterType = () => {
         console.log(this.state.openfiltertype)
@@ -166,20 +174,20 @@ class App extends Component {
         
     }
     attachFilt = () => {
-        const { osc , filt } = this.props;
+        const { osc , filt, pan } = this.props;
         if (!this.state.filtonoff) 
         {
             console.log(filt);
             osc.disconnect();
             filt.rolloff = -96;
-            filt.toMaster();
+            filt.connect(pan);
             osc.connect(filt);
         }
         else if (this.state.filtonoff)
         {
             osc.disconnect(filt)
             filt.disconnect();
-            osc.toMaster();
+            osc.connect(pan);
 
         }
     }
@@ -477,8 +485,8 @@ class App extends Component {
         if (!this.state.isDelayOn) {
             this.setState({delayOnOffOval: "onoval"})
             this.setState({delayOnOffCircle: "oncircle"})
-            const {osc, pingpong, filt} = this.props;
-            pingpong.toMaster();
+            const {osc, pingpong, filt, pan} = this.props;
+            pingpong.connect(pan);
             filt.connect(pingpong);
             this.setState( { isDelayOn : true } );
         }
@@ -494,8 +502,8 @@ class App extends Component {
         if (!this.state.isBitCrushOn) {
             this.setState({bitCrushOnOffOval: "onoval"})
             this.setState({bitCrushOnOffCircle: "oncircle"})
-            const {osc, bitcrush, filt} = this.props;
-            bitcrush.toMaster();
+            const {osc, bitcrush, filt, pan} = this.props;
+            bitcrush.connect(pan);
             filt.connect(bitcrush);
             this.setState( { isBitCrushOn : true } );
         }
@@ -523,6 +531,43 @@ class App extends Component {
         this.setState( {knobValuePanner : val.toFixed(2)} );
         pan.pan.value = val;
     }
+    setVol = (val) => {
+        const {vol} = this.props;
+        this.setState( {knobValueVolume : val.toFixed(2)} );
+        vol.volume.value = val;
+    }
+
+    addSection = () => {
+        if (this.state.selectedNumbers.length === 0) {
+            this.setState(prevState => ({
+                selectedNumbers: prevState.selectedNumbers.concat(2)
+            }))
+        }
+        else {
+            const val = this.state.selectedNumbers[this.state.selectedNumbers.length - 1];
+            this.setState(prevState => ({
+                selectedNumbers: prevState.selectedNumbers.concat(val + 1)
+            }))
+        }
+        
+    }
+    makeNewOscillator = () => {
+        
+        return(new Oscillator())
+    }
+
+    removeSection = () => {
+        this.state.selectedNumbers.pop()
+        this.setState(prevState => ({
+            selectedNumbers: prevState.selectedNumbers
+        }))
+    }
+
+    changeSelect = () => {
+        if (this.state.oscselectclass === "osc"){
+
+        }
+    }
 
 
 
@@ -545,6 +590,8 @@ class App extends Component {
         console.log(filt)
     }
 
+
+    
     handleKeyDown = (event) => {
 
         const { poly, osc } = this.props;
@@ -821,10 +868,12 @@ class App extends Component {
     componentDidMount() {
         window.addEventListener("keydown", this.handleKeyDown);
         window.addEventListener("keyup", this.handleKeyUp);
-        const {osc, filt} = this.props;
-        
-        
-        osc.toMaster();
+        const {osc, vol, filt, pan} = this.props;
+        vol.toMaster();
+        // osc.connect(vol);
+        osc.connect(pan);
+        pan.connect(vol);
+       
         console.log("THIS IS THE ")
         console.log(this.state.filtonoff)
     }
@@ -1114,15 +1163,31 @@ class App extends Component {
                     <div class="masterknobs">
                       <div class="masterknobpan">
                         <div class="masterpan">Pan</div>
-                        <div class="knob big">
-                          <div class="knobtriangle"></div>
-                        </div>
+                        <Knob
+                            style={ {
+                                width: "50px",
+                                height: "50px",
+                            } }
+                            min={-1}
+                            max={1}
+                            value={this.state.knobValuePanner}
+                            onChange={this.setPan}
+                            unlockDistance={1}
+                        />
                       </div>
                       <div class="masterknobvol">
                         <div class="mastervol">Vol</div>     
-                        <div class="knob big">
-                          <div class="knobtriangle"></div>
-                        </div>
+                        <Knob
+                            style={ {
+                                width: "50px",
+                                height: "50px",
+                            } }
+                            min={-96}
+                            max={0}
+                            value={this.state.knobValueVolume}
+                            onChange={this.setVol}
+                            unlockDistance={1}
+                        />
                       </div>  
                     </div>
                   </div>
@@ -1148,19 +1213,48 @@ class App extends Component {
                             poly={this.props.poly}
                             changeSelect={this.changeSelect}
                             myClass={this.state.oscselectclass}
+                            number={this.state.number}
 
                             />
+
+                            {this.state.selectedNumbers.map((number) => 
+                                <OscSelect 
+                                myOscStyle={divStyle2}
+                                onWavClick={this.openOscWav}
+                                myWavClass={this.state.openoscwav}
+                                oscTypeClick={this.oscTypeClick}
+                                oscTypeClass={this.state.osctype}
+                                divStyle={divStyle3}
+                                knobValueOsc={this.state.knobValueOsc}
+                                setOscFreq={this.setOscFreq}
+                                changeSine={this.changeSine}
+                                changeSquare={this.changeSquare}
+                                changeSaw={this.changeSaw}
+                                changeTriangle={this.changeTriangle}
+                                osc={this.makeNewOscillator}
+                                poly={this.props.poly}
+                                changeSelect={this.changeSelect}
+                                myClass={this.state.oscselectclass2}
+                                number={number}
+    
+                                />
+                                )}
                             
 
                             <div class="osc new">
-                            <div class="numbercontainer">
-                                <div class="addconn">
-                                <div class="plustext">+</div>
+                                <div onClick= {this.addSection} class="numbercontainer">
+                                    <div class="addconn">
+                                        <div class="plustext">+</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="addconnection">
-                                ADD CONNECTION
-                            </div>
+                                <div class="addconnection">
+                                    ADD CONNECTION
+                                </div>
+                                <div onClick= {this.removeSection} class="numbercontainer">
+                                    <div class="addconn">
+                                        <div class="minustext">-</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="window">
