@@ -413,10 +413,16 @@
     margin: 0 0 0 12px;
     background: #BBBE25;
   }
+  .norm {
+    background: lightgrey;
+  }
   .volfeed1 {
     height: 10px;
     width: 180px;
     background: #32BE25;
+  }
+  .norm2 {
+    background: #BEBEBE;
   }
   .masterknobs {
     display: flex;
@@ -919,10 +925,29 @@
   }
   .node {
     height: 25px;
-    width: 60px;
+    width: 62px;
     background: lightgrey;
     border-radius: 10px;
     border: solid black 1px;
+  }
+  .node.big {
+    height: 140px;
+    width: 62px;
+    z-index: 1;
+    background: white;
+    display: flex;
+    flex-direction: column;
+   
+    justify-content: space-between
+  }
+  .littlegreencircle {
+    height: 3px;
+    width: 52px;
+    margin: 0px 0px 0px 5px;
+    background: #32BE25;
+    position: relative;
+    border-radius: 50px;
+    z-index: 1;
   }
   .connector {
     position: relative;
@@ -940,6 +965,21 @@
     font-size: 12px;
     padding: 5px 0;
     text-align: center;
+  }
+  .p.selected.top {
+    background: lightgrey;
+    height: 12px;
+    border-radius: 10px;
+  }
+  .p.selected {
+    background: lightgrey;
+    height: 12px;
+    border-radius: 3px;
+  }
+  .p.selected.green {
+    background: #32BE25;
+    height: 12px;
+    border-radius: 10px;
   }
   .node.green {
     background: #32BE25;
@@ -1022,9 +1062,13 @@
     
     background: lightblue;
   }
+  .node.add.split {
+    width: 29px;
+    margin: 0 2px 0 0;
+  }
   .wire1 {
     height:1px;
-    width: 56px;
+    width: 54px;
     background: rgba(2,2,2,0);
     border-top: 1px solid black;
     position: absolute;
@@ -1044,7 +1088,7 @@
     position: absolute;
     top: 34px;
     right: 275px;
-    width: 30px;
+    width: 29px;
     height:45px;
   }
   
@@ -1056,7 +1100,7 @@
     border-radius: 0 5px;
     position: relative;
     top: 37px;
-    right:11px;
+    right:10px;
     width: 20px;
     height:80px;
   }
@@ -1065,7 +1109,7 @@
     width: 34px;
     height: 33px;
     top: 100px;
-    left: 109px;
+    left: 110px;
     position:absolute;
     border-bottom: 1px solid black;
     border-left: 1px solid black;
@@ -1085,7 +1129,7 @@
   
   .wire5 {
     height:1px;
-    width: 25px;
+    width: 23px;
     background: rgba(2,2,2,0);
     border-top: 1px solid black;
   
@@ -1094,12 +1138,14 @@
     right: 154px;
   }
   
+
+  /* midwire */
   .wire6 {
     background: rgba(3, 3, 3, 0);
-    width: 9px;
+    width: 8px;
     height: 33px;
     top: 52px;
-    left: 217px;
+    left: 218px;
     position:absolute;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
@@ -1116,12 +1162,14 @@
     border-left: 1px solid black;
     border-radius: 5px 0 0px 0px;
   }
+
+
   .wire8 {
     background: rgba(3, 3, 3, 0);
     width: 15px;
     height: 63px;
     top: 72px;
-    left: 217px;
+    left: 218px;
     position:absolute;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
@@ -1129,10 +1177,10 @@
   }
   .wire9 {
     background: rgba(3, 3, 3, 0);
-    width: 16px;
+    width: 14px;
     height: 33px;
     top: 38px;
-    left: 232px;
+    left: 233px;
     position:absolute;
     border-top: 1px solid black;
     border-left: 1px solid black;

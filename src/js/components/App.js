@@ -4,6 +4,7 @@ import { Knob } from 'react-rotary-knob';
 import { Transport } from 'tone'
 import { Tone } from 'tone';
 import { Master } from 'tone';
+import { Signal } from 'tone';
 
 
 
@@ -16,9 +17,12 @@ import { noteMap } from 'config';
 import MyComponent from './MyComponent';
 import Key from './Key'
 import FilterType from './FilterType'
+import Routing from './Routing'
 
 import OscSelect from './OscSelect'
 import OscAdds from './OscAdds'
+
+let sig = new Signal(1);
 
 const Comp = (props) => {
     return(
@@ -28,11 +32,16 @@ const Comp = (props) => {
 }
 
 
+
+
 class App extends Component {
    constructor(props) {
        super(props);
        this.pressedKeys = [];
+
    }
+
+
 
     state = {
         knobValueOsc : 0,
@@ -78,6 +87,9 @@ class App extends Component {
         colorx : {background : "lightgrey"},
         colornote : {background : "lightgrey"},
         coloroct : {background : "lightgrey"},
+
+
+
         openfiltertype : {height: "24px" },
         filteropen : false,
         openoscwav : "osctype",
@@ -87,6 +99,10 @@ class App extends Component {
         filtonoffoval: "offoval",
         filtonoffcircle: "offcircle",
         filtonoff: false,
+        
+        volfeedbarbig: "volfeedbar norm",
+        volfeedbarsmall: "volfeed1 norm2",
+        volfeedbarsmalllength: 180,
 
         oscselectclass: "osc one",
         oscselectclass2: "osc",
@@ -334,7 +350,7 @@ class App extends Component {
         
     }
 
-
+    
 
     // // consider making a connect multiple inputs function later
     // connectToFilter = (event) => {
@@ -590,6 +606,18 @@ class App extends Component {
         console.log(filt)
     }
 
+    setVolFeed = () => {
+        this.setState({volfeedbarbig: "volfeedbar", volfeedbarsmall: "volfeed1"})
+    }
+    setVolFeedBack = () => {
+        this.setState({volfeedbarbig: "volfeedbar norm", volfeedbarsmall: "volfeed1 norm2"})
+    }
+
+    setVolFeed2(val) {
+        this.setState({volfeedbarsmalllength : Math.floor(val)})
+
+    }
+
 
     
     handleKeyDown = (event) => {
@@ -626,12 +654,14 @@ class App extends Component {
                 poly.triggerAttack(`${note}${oct + 1}`);
                 osc.frequency.value = `${note}${oct + 1}`;
                 osc.start()
+                this.setVolFeed();
             }
             else{
                 this.setState({note})
                 poly.triggerAttack(`${note}${oct}`);
                 osc.frequency.value = `${note}${oct}`;
-                osc.start()
+                osc.start();
+                this.setVolFeed();
             }
         }
         if (event.keyCode === 90){
@@ -765,12 +795,14 @@ class App extends Component {
                 if (keyCode === 75 || keyCode === 79 || keyCode === 76) {
                     poly.triggerRelease(`${note}${oct + 1}`);
                     osc.frequency.value = `${note}${oct + 1}`;
-                    osc.stop()
+                    osc.stop();
+                    this.setVolFeedBack();
                 }
                 else{
                     poly.triggerRelease(`${note}${oct}`);
                     osc.frequency.value = `${note}${oct}`;
-                    osc.stop()
+                    osc.stop();
+                    this.setVolFeedBack();
                 }
             }
         }
@@ -870,11 +902,14 @@ class App extends Component {
         window.addEventListener("keyup", this.handleKeyUp);
         const {osc, vol, filt, pan} = this.props;
         vol.toMaster();
-        // osc.connect(vol);
+        console.log("");
+       
         osc.connect(pan);
         pan.connect(vol);
+        
        
         console.log("THIS IS THE ")
+        console.log(vol.volume.value)
         console.log(this.state.filtonoff)
     }
 
@@ -883,13 +918,22 @@ class App extends Component {
         window.removeEventListener("keyup", this.handleKeyUp);
     }
 
+    // componentDidUpdate() {
+    //     var output = Master.volume.value;
+    //     this.setVolFeed2(output);
+    // }
 
+
+    
 
     render () {
-
+        
+        // console.log(this.mast.volume.value)
+        
+       
 
         console.log("RENDER APP");
-        console.log("This is " + this.state.filtonoff)
+        console.log("")
 
 
         // const {filt} = this.props;
@@ -1149,12 +1193,12 @@ class App extends Component {
                   <div class="uppermaster">
                     <div class="mastertext">MASTER</div>
                       
-                     <div class="volfeedbar">
-                      <div class="volfeed1"></div>
+                     <div class={this.state.volfeedbarbig}>
+                      <div class={this.state.volfeedbarsmall}></div>
                       <div class="volfeed2"></div>
                      </div>                     
-                     <div class="volfeedbar">
-                      <div class="volfeed1"></div>
+                     <div class={this.state.volfeedbarbig}>
+                      <div class={this.state.volfeedbarsmall}></div>
                       <div class="volfeed2"></div>
                      </div>
                      <div class="lowervolfeed"></div>  
@@ -1258,144 +1302,17 @@ class App extends Component {
                             </div>
                         </div>
                         <div class="window">
-                            <div class="routing">
+                        <div class="routing">
                             <div class="routingtitle">
                                 <div class="routingtext"> ROUTING</div>
-                                
+                        
                             </div>
                             <div class="line routingl"></div>
-                            <div class="routingarea">
-                                
-                                <div class="pluscircles">
-                                <div class="pluscircleleft">
-                                    <div class="p12">+</div>
-                                </div>
-                                <div class="pluscircleright">
-                                    <div class="p12">+</div>
-                                </div>
-                                </div>
-                                
-                                
-                                <div class="grid">
+                            <Routing />
+                        </div>
                             
-                                
-                                <div class="row">
-
-                                    <div class="nodeconnector"> 
-                                    <div class="node">
-                                        <div class="p">OSC</div>
-                                    </div>
-                                    <div class="connector"></div>
-                                    </div>
-
-                                
-
-                            
-                                
-                                
-                                </div>
-                                
-                                <div class="row2">
-                                    
-                                    
-                                    
-                                    <div class="wire2"></div>
-                                    <div class="lowwirebottom2"></div>
-                                    <div class="wire3"></div>
-                                    <div class="lowwirebottom"></div>
-                                    <div class="wire1"></div>
-                                    
-                                </div>
-                                <div class="row">
-                                    
-                                    <div class="nodeconnector"> 
-                                        <div class="connector"></div>
-                                        <div class="node green">
-                                        <div class="p">FILT</div>
-                                        </div>
-                                        <div class="connector"></div>
-                                    </div>
-                                    
-                                    <div class="nodeconnector"> 
-                                        <div class="connector"></div>
-                                        <div class="node green">
-                                        <div class="p">DELAY</div>
-                                        </div>
-                                        <div class="connector"></div>
-                                    </div>
-                                    
-                                    <div class="nodeconnector"> 
-                                        <div class="connector"></div>
-                                        <div class="node">
-                                        <div class="p"></div>
-                                        </div>
-                                        <div class="connector"></div>
-                                    </div>
-                                    
-                                    <div class="nodeconnector"> 
-                                        <div class="connector invis">
-                                        
-                                    </div>
-                                        <div class="node add">
-                                        <div class="p1">+</div>
-                                        </div>
-                                    
-                                    </div>
-                                    
-
-                                    
-                                </div>
-                                
-                                <div class="row2">
-
-                                        <div class="wire5"></div>
-                                        <div class="wire6"></div>
-                                        <div class="wire7"></div>
-                                        <div class="wire8"></div>
-                                        <div class="wire9"></div>
-                                        
-
-                                </div>
-                                
-                                <div class="row">
-                                    
-                                    <div class="nodeconnector"> 
-                                        <div class="connector"></div>
-                                        <div class="node">
-                                        <div class="p">CRUSH</div>
-                                        </div>
-                                        <div class="connector"></div>
-                                    </div>
-                                    
-                                <div class="nodeconnector"> 
-                                        <div class="connector invis">
-                                        
-                                    </div>
-                                        <div class="node add">
-                                        <div class="p1">+</div>
-                                        </div>
-                                    
-                                    </div> 
-                                    
-                                </div>
-                                
-                                <div class="row">
-                                
-                                    <div class="nodeconnector"> 
-
-                                        <div class="node add">
-                                        <div class="p1">+</div>
-                                        </div>
-                                    
-                                    </div>
-                                    
-                                </div>
-                                
-                                </div>  
-                            </div>
-                            </div>
-                            <div class="line separation"></div>
-                            <div class="settings">
+                        <div class="line separation"></div>
+                        <div class="settings">
                             <div class="settingsoptions">
                                 <div 
                                     onClick={this.changeSettingsLFO} 

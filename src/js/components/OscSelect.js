@@ -1,6 +1,7 @@
 import React, { Component } from 'react' 
 import OscOptions from './OscOptions'
 import { Knob } from 'react-rotary-knob';
+import { Oscillator } from 'tone'
 
 
 class Sine extends Component {
@@ -47,6 +48,8 @@ class Triangle extends Component {
         )
     }
 }
+
+
 
 class OscSelect extends Component {
     state = {
