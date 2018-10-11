@@ -6,22 +6,50 @@ import RowofNodes from './RowofNodes'
 class Routing extends Component {
 
     state = {
-        dragStart: null,
-        dragging: null,
-        dragEnd: null,
-        onDrop: null,
-        nodeState: "node green",
+        // dragStart: null,
+        // dragging: null,
+        // dragEnd: null,
+        // onDrop: null,
+        // nodeState: "node green",
         selectedNodes: [],
 
     }
-    addSection = () => {
+    addRow = () => {
+     
         this.state.selectedNodes.unshift(this.state.selectedNodes[0]-1);
-        console.log(this.state.selectedNodes)
         this.setState({selectedNodes: this.state.selectedNodes})
+        
     }
-    removeSection = () => {
+    removeRow = () => {
+        if (this.state.selectedNodes.length > 1) {
+            this.state.selectedNodes.shift();
+            this.setState({selectedNodes: this.state.selectedNodes})
+        }
+    }
+    addRowfromIndex = (n) => {
+        var index = this.state.selectedNodes.indexOf(n);
+        var indexNumber = this.state.selectedNodes[index] - 1;
+        this.state.selectedNodes.splice(index, 0, indexNumber);
+        this.setState({selectedNodes: this.state.selectedNodes});
+
+    }
+    removeRowfromIndex = (n) => {
+        if (this.state.selectedNodes.length != 1) {
+            var index = this.state.selectedNodes.indexOf(n);
+            this.state.selectedNodes.splice(index, 1);
+            this.setState({selectedNodes: this.state.selectedNodes})
+        }   
+    }
+    addRowatEnd = () => {
+        this.setState({selectedNodes: this.state.selectedNodes.concat(this.state.selectedNodes[this.state.selectedNodes.length - 1] + 1)})
+    }
+    removeRowatEnd = () => {
         this.state.selectedNodes.pop();
         this.setState({selectedNodes: this.state.selectedNodes})
+    }
+    componentDidMount() {
+        var newArray = this.state.selectedNodes.concat(10);
+        this.setState({selectedNodes: newArray})
     }
     
 
@@ -31,67 +59,67 @@ class Routing extends Component {
            
             <div class="routingarea">
                 
-                <div class="pluscircles">
-                <div onClick={this.addSection} class="pluscircleleft">
-                    <div class="p12">+</div>
-                </div>
-                <div onClick={this.removeSection} class="pluscircleright">
-                    <div class="p12">-</div>
-                </div>
-                </div>
+                
                 
                 
                 <div class="grid">
             
-                
-                    <div class="row">
+                    <div class="rownodes">
+                        
+                        <div class="row">
+                            <div class="pluscircles">
+                                <div onClick={this.addRow} class="pluscircleleft">
+                                    <div class="p12">+</div>
+                                </div>
+                                <div onClick={this.removeRow} class="pluscircleright">
+                                    <div class="p12">-</div>
+                                </div>
+                            </div>
+                            <div class="nodeconnector"> 
+                            <Node name="OSC" />
+                            <div class="connector"></div>
+                            </div>
 
-                        <div class="nodeconnector"> 
-                        <Node name="OSC" />
-                        <div class="connector"></div>
                         </div>
 
-                    
-
-                
-                    
-                    
-                    </div>
-                    
-                    <div class="row2">
+                        <div class="row2">
                         
-                        
-                        
-                        {/* <div class="wire2"></div>
-                        <div class="lowwirebottom2"></div>
-                        <div class="wire3"></div>
-                        <div class="lowwirebottom"></div>
-                        <div class="wire1"></div> */}
-                        
-                    </div>
-
-                    <RowofNodes />
-                    
-                    <div class="row2">
-
-                            {/* <div class="wire5"></div>
-                            <div class="wire6"></div>
-                            <div class="wire7"></div>
-                            <div class="wire8"></div>
-                            <div class="wire9"></div> */}
+                            {/* <div class="wire2"></div>
+                            <div class="lowwirebottom2"></div>
+                            <div class="wire3"></div>
+                            <div class="lowwirebottom"></div>
+                            <div class="wire1"></div> */}
                             
-
+                        </div>
                     </div>
 
-                    {this.state.selectedNodes.map((number) => <RowofNodes />)}
-                    
-                    
+
+                    {this.state.selectedNodes.map((number) => 
+                    <RowofNodes 
+                        number={number}
+                        key={number}
+                        addRow={(n) => this.addRowfromIndex(n)}
+                        removeRow={(n) => this.removeRowfromIndex(n)}
+                        />
+                        
+                    )}
+                  
                     <div class="row">
-                    
+                        <div class="pluscircles blank">
+                            <div  class="pluscircleleft blank">
+                                <div class="p12"></div>
+                            </div>
+                            <div class="pluscircleright blank">
+                                <div class="p12"></div>
+                            </div>
+                        </div>
                         <div class="nodeconnector"> 
 
-                            <div onClick={this.addSection} class="node add">
-                            <div class="p1">+</div>
+                            <div onClick={this.addRowatEnd} class="node add split">
+                                <div class="p1">+</div>
+                            </div>
+                            <div onClick={this.removeRowatEnd} class="node add split">
+                                <div class="p1">-</div>
                             </div>
                         
                         </div>

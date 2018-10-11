@@ -103,7 +103,7 @@ class Node extends Component {
                     style={divStyle2}
                     class="p">
                         
-                    {this.props.name === "OSC"? this.props.name:this.state.name}
+                    {this.props.name === "OSC"? this.props.name: this.state.name}
                     <div style={divStyle3} class="littlegreencircle"></div>
                 </div>
                 
