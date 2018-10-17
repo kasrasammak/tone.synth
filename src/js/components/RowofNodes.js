@@ -82,7 +82,8 @@ class RowofNodes extends Component {
          
      }
 
-     onDrop = (ev, number, node) => {
+     onDrop = (e, ev, number, node) => {
+        e.dataTransfer.getData('text')
         // ev.dataTransfer.getData(ev);
         this.props.connected(ev, number, node);
         console.log("this will be", this.props.inputWire, "to", number);
@@ -301,7 +302,7 @@ class RowofNodes extends Component {
                             changeEffect3={this.changeEffect3}
                             selectedNode={this.state.selectedNode}
                             onDragStart={(e, node) => {this.onDragStart(e, number, node)}}
-                            onDrop={(e, node) => this.onDrop(e, number, node)}
+                            onDrop={(e, ev, node) => this.onDrop(e, ev, number, node)}
                             onDragOver={(e) => {this.onDragOver(e)}}
                             osc={this.props.osc}
                             pan={this.props.pan}

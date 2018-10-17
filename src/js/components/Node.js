@@ -237,9 +237,9 @@ class Node extends Component {
         this.props.onDragStart(this.state.selectedNode, this.state.isNodeOutputNull)
     }
 
-    onDrop = () => {
-
-        this.props.onDrop(this.state.selectedNode, this.state.isNodeInputNull)
+    onDrop = (e) => {
+        e.dataTransfer.getData('text')
+        this.props.onDrop(e, this.state.selectedNode, this.state.isNodeInputNull)
     }
 
     render() {
@@ -268,7 +268,7 @@ class Node extends Component {
                     
                     onDragOver={this.props.onDragOver}
                     className="droppable"
-                    onDrop={this.onDrop}
+                    onDrop={(e) => this.onDrop(e)}
                     className="connector">
                 </div>
 
