@@ -26,6 +26,7 @@ export default class Instructions extends Component {
                                 <br/>to the filter's frequency, 
                                 <br/>so you must have the filter connected 
                                 <br/>in order to hear its effects.</li>
+                            <li>The POLY mode is not yet connected to anything, <br/>it only plays.</li>
                         </ul>
                 </div>
                 <br/>
