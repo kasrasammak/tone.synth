@@ -191,7 +191,7 @@ class Node extends Component {
         rev.decay = .5;
         console.log(rev.decay);
         rev.generate(); 
-        rev.load()        
+           
         rev.connect(pan);
 
         this.setState({isNodeNull: false})
