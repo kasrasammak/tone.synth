@@ -190,7 +190,8 @@ class Node extends Component {
         console.log(this.props.myKey);
         rev.decay = .5;
         console.log(rev.decay);
-        rev.generate();
+        rev.generate(); 
+        rev.load()        
         rev.connect(pan);
 
         this.setState({isNodeNull: false})
@@ -231,8 +232,8 @@ class Node extends Component {
 
     }
 
-    onDragStart = () => {
-       
+    onDragStart = (e) => {
+        e.dataTransfer.setData('text','')
         this.props.onDragStart(this.state.selectedNode, this.state.isNodeOutputNull)
     }
 
@@ -360,8 +361,8 @@ class Node extends Component {
 
                 <div
                 
-                    onDragStart={this.onDragStart}
-                    draggable
+                    onDragStart={(e) => this.onDragStart(e)}
+                    draggable="true"
                     className="draggable"
                     className="connector"
                 >

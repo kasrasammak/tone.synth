@@ -94,7 +94,8 @@ class Routing extends Component {
     clickConnector() {
 
     }
-    onDragStart = () => {
+    onDragStart = (e) => {
+        e.dataTransfer.setData('text','')
         console.log("dragstart: ", this.state.connector);
         this.setState({isNodeOutputNull: false})
         this.setState({inputWire: -1});
@@ -371,7 +372,7 @@ class Routing extends Component {
                                     key={0}
                                     
                                     onDragStart={(e) => {this.onDragStart(e)}}
-                                    draggable
+                                    draggable="true"
                                     className="draggable"
                                     class="connector">
                                 </div>
