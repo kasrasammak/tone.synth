@@ -15,7 +15,7 @@ class Key extends Component {
     render () {
         
         return (
-            <div class={this.props.myClass} style={this.props.myStyle}>{this.props.children}</div>
+            <div className={this.props.myClass} style={this.props.myStyle}>{this.props.children}</div>
         )
     }
 }

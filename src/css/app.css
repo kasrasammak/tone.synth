@@ -930,6 +930,15 @@
     border-radius: 10px;
     border: solid black 1px;
   }
+  .newnode {
+    height: 25px;
+    width: 62px;
+    background: lightgrey;
+    border-radius: 10px;
+    border: solid black 1px;
+    position: relative;
+    top: 50px;
+  }
   .node.big {
     height: 140px;
     width: 62px;
@@ -1081,17 +1090,15 @@
     width: 29px;
     margin: 0 2px 0 0;
   }
+
+
   .wire1 {
     height:1px;
-    width: 54px;
+    width: 45px;
     background: rgba(2,2,2,0);
     border-top: 1px solid black;
     position: absolute;
-    top: 31px;
-    right: 250px;
-    
-  
-   
+    top: 71px;
   }
   
   
@@ -1101,12 +1108,22 @@
     border-right: 1px solid black;
     border-radius: 0 5px;
     position: absolute;
-    top: 34px;
-    right: 275px;
-    width: 29px;
+    top: 74px;
+    /* right: 275px; */
+    width: 23px;
     height:45px;
   }
-  
+  .wire2bottom {
+    background: rgba(3, 3, 3, 0);
+    width: 23px;
+    height: 33px;
+    top: 89px;
+    margin-left: 23px;
+    position:absolute;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-radius: 0 0 0 5px;
+  }
   
   .wire3 {
     background: rgba(3, 3, 3, 0);
@@ -1114,92 +1131,140 @@
     border-right: 1px solid black;
     border-radius: 0 5px;
     position: relative;
-    top: 37px;
-    right:10px;
+    top: 77px;
+    /* right: 10px; */
     width: 20px;
     height:80px;
   }
-  .lowwirebottom {
-    background: rgba(3, 3, 3, 0);
-    width: 34px;
-    height: 33px;
-    top: 100px;
-    left: 110px;
-    position:absolute;
-    border-bottom: 1px solid black;
-    border-left: 1px solid black;
-    border-radius: 0 0 0 5px;
-  }
-  .lowwirebottom2 {
+  .wire3bottom {
     background: rgba(3, 3, 3, 0);
     width: 25px;
     height: 33px;
-    top: 50px;
-    left: 119px;
+    top: 139px;
+    margin-left: 20px;
     position:absolute;
     border-bottom: 1px solid black;
     border-left: 1px solid black;
     border-radius: 0 0 0 5px;
   }
+
   
   .wire5 {
     height:1px;
-    width: 23px;
+    width: 47px;
     background: rgba(2,2,2,0);
     border-top: 1px solid black;
   
     position: absolute;
-    top: 32px;
-    right: 154px;
+    top: 125px;
+    /* right: 154px; */
   }
   
 
   /* midwire */
-  .wire6 {
+  .wire6bottom {
     background: rgba(3, 3, 3, 0);
-    width: 8px;
-    height: 33px;
-    top: 52px;
-    left: 218px;
+    width: 18px;
+    height: 27px;
+    top: 95px;
+    /* left: 218px; */
     position:absolute;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
     border-radius: 0 0 5px 0px;
   }
-  .wire7 {
+  .wire6top {
     background: rgba(3, 3, 3, 0);
-    width: 16px;
-    height: 33px;
-    top: 35px;
-    left: 226px;
+    width: 26px;
+    height: 29px;
+    top: 74px;
+    margin-left: 18px;
+    
     position:absolute;
     border-top: 1px solid black;
     border-left: 1px solid black;
     border-radius: 5px 0 0px 0px;
   }
 
+  .wire7 {
+    background: rgba(3, 3, 3, 0);
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-radius: 0 5px;
+    position: absolute;
+    top: 128px;
+    /* right: 275px; */
+    width: 23px;
+    height:45px;
+  }
+  .wire7bottom {
+    background: rgba(3, 3, 3, 0);
+    width: 22px;
+    height: 33px;
+    top: 142px;
+    margin-left: 23px;
+    position:absolute;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-radius: 0 0 0 5px;
+  }
 
-  .wire8 {
+
+  .wire8bottom {
     background: rgba(3, 3, 3, 0);
     width: 15px;
     height: 63px;
-    top: 72px;
-    left: 218px;
+    top: 109px;
+    /* left: 218px; */
     position:absolute;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
     border-radius: 0 0 5px 0px;
   }
-  .wire9 {
+  .wire8top {
     background: rgba(3, 3, 3, 0);
-    width: 14px;
-    height: 33px;
-    top: 38px;
-    left: 233px;
+    width: 29px;
+    height: 35px;
+    top: 78px;
+    margin-left: 15px;
+    /* left: 233px; */
     position:absolute;
     border-top: 1px solid black;
     border-left: 1px solid black;
     border-radius: 5px 0 0px 0px;
+  }
+
+  .wire9bottom {
+    background: rgba(3, 3, 3, 0);
+    width: 18px;
+    height: 27px;
+    top: 148px;
+    /* left: 218px; */
+    position:absolute;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-radius: 0 0 5px 0px;
+  }
+  .wire9top {
+    background: rgba(3, 3, 3, 0);
+    width: 28px;
+    height: 29px;
+    top: 128px;
+    margin-left: 18px;
+    
+    position:absolute;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-radius: 5px 0 0px 0px;
+  }
+
+  .wire10 {
+    height:1px;
+    width: 46px;
+    background: rgba(2,2,2,0);
+    border-top: 1px solid black;
+    position: absolute;
+    top: 178px;
   }
   
   .triangleupsidedown {
@@ -1210,4 +1275,23 @@
       border-top: 10px solid lightblue;
     margin: 8px;
     
+  }
+
+  .instructions {
+    font-size: 12px;
+    height: 390px;
+    width: 300px;
+    margin-top: 20px;
+    background: white;
+    padding: 30px 50px 50px 50px;
+    border-radius: 10px;
+    
+  }
+
+  .notedd {
+    font-size: 10px;
+    color: #c94c4c;
+  }
+  .welcome {
+    font-size: 16px;
   }

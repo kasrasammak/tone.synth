@@ -56,14 +56,14 @@ class FilterType extends Component {
         return (
             <div style={this.props.myStyles} onClick={this.props.onClick} className={this.props.myClass}>
 
-                <div class="shape">
+                <div className="shape">
                       
-                      <div class="firstshapes">
-                        <div class={this.state.filtertype}>                           
-                                <div style={divStyle} class="notchleft"></div>
-                                <div style={divStyle} class="notchright"></div>
+                      <div className="firstshapes">
+                        <div className={this.state.filtertype}>                           
+                                <div style={divStyle} className="notchleft"></div>
+                                <div style={divStyle} className="notchright"></div>
                         </div>
-                        <div class="triangleupsidedown filttype"></div>
+                        <div className="triangleupsidedown filttype"></div>
                       </div>
                       
                       <FilterOptions 
@@ -73,6 +73,7 @@ class FilterType extends Component {
                         onBandpass={this.changeBandpass}
                         onNotch={this.changeNotch}
                         myStyles={this.props.myFilterStyles}
+                        // myFilt={this.props.myFilt}
                     
                         />
                     

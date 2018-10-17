@@ -33,7 +33,7 @@ class FilterOptions extends Component {
                     onClick={this.props.onLowpass} 
                     onMouseEnter={this.hover} 
                     onMouseLeave={this.hover} 
-                    class={this.state.isToggle? 'filterselector':'filterselector un'}>
+                    className={this.state.isToggle? 'filterselector':'filterselector un'}>
                         <div class="shapes lowpass"></div>
                 </div>
                     
@@ -41,7 +41,7 @@ class FilterOptions extends Component {
                     onClick={this.props.onHighpass} 
                     onMouseEnter={this.hover2} 
                     onMouseLeave={this.hover2} 
-                    class={this.state.isToggle2? 'filterselector':'filterselector un'}>
+                    className={this.state.isToggle2? 'filterselector':'filterselector un'}>
                         <div class="shapes highpass"></div>
                 </div>
                     
@@ -49,17 +49,17 @@ class FilterOptions extends Component {
                     onClick={this.props.onBandpass} 
                     onMouseEnter={this.hover3} 
                     onMouseLeave={this.hover3} 
-                    class={this.state.isToggle3? 'filterselector':'filterselector un'}>
+                    className={this.state.isToggle3? 'filterselector':'filterselector un'}>
                         <div class="shapes bandpass"></div>
                 </div>
                     
                 <div onClick={this.props.onNotch} 
                     onMouseEnter={this.hover4} 
                     onMouseLeave={this.hover4} 
-                    class={this.state.isToggle4? 'filterselector':'filterselector un b'}>
-                        <div class="shapes notch">
-                            <div class="notchleft"></div>
-                            <div class="notchright"></div>
+                    className={this.state.isToggle4? 'filterselector':'filterselector un b'}>
+                        <div className="shapes notch">
+                            <div className="notchleft"></div>
+                            <div className="notchright"></div>
                         </div>
                 </div>
 

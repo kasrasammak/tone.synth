@@ -116,15 +116,15 @@ class OscSelect extends Component {
     }
     changeOsc = (e) => {
         this.setState({name: "OSC"})
-        const { osc, poly } = this.props;
-        poly.disconnect();
-        osc.toMaster();
+        const { osc, poly, pan } = this.props;
+        poly.disconnect(pan);
+        osc.connect(pan);
     }    
     changePoly = (e) => {
         this.setState({name: "POLY"})
-        const { osc, poly } = this.props;
-        osc.disconnect();
-        poly.toMaster();
+        const { osc, poly, pan } = this.props;
+        osc.disconnect(pan);
+        poly.connect(pan);
     }
     setOscVol = (val) => {
         const osc = this.props.osc;
