@@ -14,22 +14,23 @@ export default class Instructions extends Component {
                 <br/><br/>
                 Clicking on the primary OSC node will connect it to and disconnect it from the Master channel.
                 <br/><br/>
-                <br/>
+               
                 <div className="notedd">
                     ***This site is still under construction, so please keep in mind: 
                         <ul>
                             <li>Do not connect the same effect twice</li>
                             <li>Do not connect nodes in the same row</li>
                             <li>Do not change a node which is already connected</li>
+                            <li>There are some bugs with POLY mode; <br/>it is not yet connected to anything, <br/>so if you want to play with it, don't touch anything else.</li>
                             <li>Should you accidentally do any of this, <br/>simply refresh the page</li>
                             <li>LFO Power connects the LFO directly 
                                 <br/>to the filter's frequency, 
                                 <br/>so you must have the filter connected 
                                 <br/>in order to hear its effects.</li>
-                            <li>The POLY mode is not yet connected to anything, <br/>it only plays.</li>
+                            
                         </ul>
                 </div>
-                <br/>
+                
                 
                 Enjoy!
             </div>
