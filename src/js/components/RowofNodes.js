@@ -23,9 +23,12 @@ class RowofNodes extends Component {
    
     }
     addNode = () => {
-        this.setState(prevState => ({
+        if (this.state.selectedNodes.length < 3 ) 
+        { 
+           this.setState(prevState => ({
             selectedNodes: prevState.selectedNodes.concat(this.state.selectedNodes[this.state.selectedNodes.length - 1] + 1)
         }))
+        }
     }
     removeNode = () => {
         if (this.state.selectedNodes.length != 1) {
@@ -304,7 +307,7 @@ class RowofNodes extends Component {
                             filt={this.props.filt}
                             pingpong={this.props.pingpong}
                             bitcrush={this.props.bitcrush} 
-                            // isNodeNull={(e) => this.isNodeNull(e)}
+                            
                             />
                    )}
                     
