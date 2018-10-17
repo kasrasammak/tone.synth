@@ -295,6 +295,7 @@ class RowofNodes extends Component {
                             name3="BITCRUSH"
                             name4="   -null-    "
                             name5="   -toMaster-    "
+                            name6="REVERB"
                             changeEffect={this.changeEffect}
                             changeEffect2={this.changeEffect2}
                             changeEffect3={this.changeEffect3}
@@ -305,6 +306,7 @@ class RowofNodes extends Component {
                             osc={this.props.osc}
                             pan={this.props.pan}
                             filt={this.props.filt}
+                            rev = { this.props.rev }
                             pingpong={this.props.pingpong}
                             bitcrush={this.props.bitcrush} 
                             

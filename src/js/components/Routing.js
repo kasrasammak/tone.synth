@@ -28,13 +28,20 @@ class Routing extends Component {
         OsctoFilt: false,
         OsctoBitCrush: false,
         OsctoDelay: false,
+        OsctoRev: false,
         FilttoBitCrush: false,
         FilttoDelay: false,
+        FilttoRev: false,
         BitCrushtoFilt: false,
         BitCrushtoDelay: false,
+        BitCrushtoRev: false,
         DelaytoBitCrush: false,
         DelaytoFilt: false,
-        
+        DelaytoRev: false,
+        RevtoFilt: false,
+        RevtoBitCrush: false,
+        RevtoDelay: false,
+
         inputWire: null,
         outputWire: null,
 
@@ -104,112 +111,189 @@ class Routing extends Component {
         console.log("we are", e, "and", number);
 
     if (!node && !this.state.isNodeOutputNull)
-    {        
-        if (this.state.connector === this.props.osc) {
-            if (e === this.props.pingpong) {
-                
-                if (!this.state.OsctoDelay){
-                    this.setState({OsctoDelay: true})
+        {        
+            if (this.state.connector === this.props.osc) {
+                if (e === this.props.pingpong) {
+                    
+                    if (!this.state.OsctoDelay){
+                        this.setState({OsctoDelay: true})
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({OsctoDelay: false})
+                        this.state.connector.disconnect(e);
+                    }
+                    
+                }
+                else if (e === this.props.bitcrush) {
+                    if (!this.state.OsctoBitCrush){
+                    this.setState({OsctoBitCrush: true}) 
                     this.state.connector.connect(e);
-                }
-                else {
-                    this.setState({OsctoDelay: false})
+                    }
+                    else {
+                        this.setState({OsctoBitCrush: false}) 
                     this.state.connector.disconnect(e);
+                    }
+                    
                 }
-                
-            }
-            else if (e === this.props.bitcrush) {
-                if (!this.state.OsctoBitCrush){
-                   this.setState({OsctoBitCrush: true}) 
-                   this.state.connector.connect(e);
+                else if (e === this.props.filt) {
+                    if (!this.state.OsctoFilt) {
+                        this.setState({OsctoFilt: true})
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({OsctoFilt: false})
+                        this.state.connector.disconnect(e);
+                    }
+                    
                 }
-                else {
-                    this.setState({OsctoBitCrush: false}) 
-                   this.state.connector.disconnect(e);
-                }
-                
-            }
-            else if (e === this.props.filt) {
-                if (!this.state.OsctoFilt) {
-                    this.setState({OsctoFilt: true})
-                    this.state.connector.connect(e);
-                }
-                else {
-                    this.setState({OsctoFilt: false})
-                    this.state.connector.disconnect(e);
-                }
-                
-            }
-        }
-        else if (this.state.connector === this.props.pingpong) {
-            if (e === this.props.bitcrush) {
-                if (!this.state.DelaytoBitCrush) {
-                    this.setState({DelaytoBitCrush: true})
-                    this.state.connector.connect(e);
-                }
-                else {
-                    this.setState({DelaytoBitCrush: false})
-                    this.state.connector.disconnect(e);
-                }
-                
-            }
-            else if (e === this.props.filt) {
-                if (!this.state.DelaytoFilt) {
-                    this.setState({DelaytoFilt: true})
-                    this.state.connector.connect(e);
-                }
-                else {
-                    this.setState({DelaytoFilt: false})
-                    this.state.connector.disconnect(e);
+                else if (e === this.props.rev) {
+                    if (!this.state.OsctoRev) {
+                        this.setState({OsctoRev: true})
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({OsctoRev: false})
+                        this.state.connector.disconnect(e);
+                    }
+                    
                 }
             }
-        }
-        else if (this.state.connector === this.props.bitcrush) {
-            if (e === this.props.pingpong) {
-                if (!this.state.BitCrushtoDelay){
-                    this.setState({BitCrushtoDelay: true})
-                    this.state.connector.connect(e);
+            else if (this.state.connector === this.props.pingpong) {
+                if (e === this.props.bitcrush) {
+                    if (!this.state.DelaytoBitCrush) {
+                        this.setState({DelaytoBitCrush: true})
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({DelaytoBitCrush: false})
+                        this.state.connector.disconnect(e);
+                    }
+                    
                 }
-                else {
-                    this.setState({BitCrushtoDelay: false})
-                    this.state.connector.disconnect(e);
+                else if (e === this.props.filt) {
+                    if (!this.state.DelaytoFilt) {
+                        this.setState({DelaytoFilt: true})
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({DelaytoFilt: false})
+                        this.state.connector.disconnect(e);
+                    }
                 }
-                
-            }
-            else if (e === this.props.filt) {
-                if (!this.state.BitCrushtoFilt) {
-                    this.setState({BitCrushtoFilt: true})
-                    this.state.connector.connect(e);
-                }
-                else {
-                    this.setState({BitCrushtoFilt: false})
-                    this.state.connector.disconnect(e);
-                }
-                
-            }
-        }
-        else if (this.state.connector === this.props.filt) {
-            if (e === this.props.bitcrush) {
-                if (!this.state.FilttoBitCrush) {
-                    this.setState({FilttoBitCrush: true})
-                    this.state.connector.connect(e);
-                }
-                else {
-                    this.setState({FilttoBitCrush: false})
-                    this.state.connector.disconnect(e);
+                else if (e === this.props.rev) {
+                    if (!this.state.DelaytoRev) {
+                        this.setState({DelaytoRev: true})
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({DelaytoRev: false})
+                        this.state.connector.disconnect(e);
+                    }
                 }
             }
-            else if (e === this.props.pingpong) {
-                if (!this.state.FilttoDelay) {
-                    this.setState({FilttoDelay: true}) 
-                    this.state.connector.connect(e);
+            else if (this.state.connector === this.props.bitcrush) {
+                if (e === this.props.pingpong) {
+                    if (!this.state.BitCrushtoDelay){
+                        this.setState({BitCrushtoDelay: true})
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({BitCrushtoDelay: false})
+                        this.state.connector.disconnect(e);
+                    }
+                    
                 }
-                else {
-                    this.setState({FilttoDelay: false})
-                    this.state.connector.disconnect(e);
+                else if (e === this.props.filt) {
+                    if (!this.state.BitCrushtoFilt) {
+                        this.setState({BitCrushtoFilt: true})
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({BitCrushtoFilt: false})
+                        this.state.connector.disconnect(e);
+                    }
+                    
                 }
-                
+                else if (e === this.props.rev) {
+                    if (!this.state.BitCrushtoRev) {
+                        this.setState({BitCrushtoRev: true})
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({BitCrushtoRev: false})
+                        this.state.connector.disconnect(e);
+                    }
+                    
+                }
             }
+            else if (this.state.connector === this.props.filt) {
+                if (e === this.props.bitcrush) {
+                    if (!this.state.FilttoBitCrush) {
+                        this.setState({FilttoBitCrush: true})
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({FilttoBitCrush: false})
+                        this.state.connector.disconnect(e);
+                    }
+                }
+                else if (e === this.props.pingpong) {
+                    if (!this.state.FilttoDelay) {
+                        this.setState({FilttoDelay: true}) 
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({FilttoDelay: false})
+                        this.state.connector.disconnect(e);
+                    }
+                    
+                }
+                else if (e === this.props.rev) {
+                    if (!this.state.FilttoRev) {
+                        this.setState({FilttoRev: true}) 
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({FilttoRev: false})
+                        this.state.connector.disconnect(e);
+                    }
+                    
+                }
+            }
+            else if (this.state.connector === this.props.rev) {
+                if (e === this.props.bitcrush) {
+                    if (!this.state.RevtoBitCrush) {
+                        this.setState({RevtoBitCrush: true})
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({RevtoBitCrush: false})
+                        this.state.connector.disconnect(e);
+                    }
+                }
+                else if (e === this.props.pingpong) {
+                    if (!this.state.RevtoDelay) {
+                        this.setState({RevtoDelay: true}) 
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({RevtoDelay: false})
+                        this.state.connector.disconnect(e);
+                    }
+                    
+                }
+                else if (e === this.props.filt) {
+                    if (!this.state.RevtoFilt) {
+                        this.setState({RevtoFilt: true}) 
+                        this.state.connector.connect(e);
+                    }
+                    else {
+                        this.setState({RevtoFilt: false})
+                        this.state.connector.disconnect(e);
+                    }
+                    
+                }
             }
         }
         
@@ -316,6 +400,7 @@ class Routing extends Component {
                         filt={ this.props.filt }
                         pingpong={ this.props.pingpong }
                         bitcrush= { this.props.bitcrush }
+                        rev = { this.props.rev }
                         clickConnector={this.clickConnector}
                         connector={(e) => this.connector(e)}
                         connected={(e, num, node) => this.connected(e, num, node)}

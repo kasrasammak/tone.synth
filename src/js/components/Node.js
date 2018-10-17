@@ -38,6 +38,7 @@ class Node extends Component {
         isToggle3: false,
         isToggle4: false,
         isToggle5: false,
+        isToggle6: false,
         name: null,
         isMaster: false,
         selectedNode: this.props.pingpong,
@@ -112,7 +113,9 @@ class Node extends Component {
     hover5 = () => {
         this.setState({isToggle5: !this.state.isToggle5})
     }
-
+    hover6 = () => {
+        this.setState({isToggle6: !this.state.isToggle6})
+    }
     change = (item) => {
         if (item === "FILT") {
             this.changeEffect();
@@ -178,7 +181,23 @@ class Node extends Component {
         this.setState({isNodeOutputNull: false})
         
     }
+    changeEffect6 = () => {
+        // this.props.changeEffect3();
+        const { osc, pan, filt, pingpong, bitcrush , rev } = this.props;
+        this.setState({name: this.props.name6})
+        this.setState({isMaster: true});
+        this.setState({selectedNode: rev});
+        console.log(this.props.myKey);
+        rev.decay = .5;
+        console.log(rev.decay);
+        rev.generate();
+        rev.connect(pan);
 
+        this.setState({isNodeNull: false})
+        this.setState({isNodeInputNull: false})
+        this.setState({isNodeOutputNull: false})
+        
+    }
     changeEffect4 = () => {
         this.setState({name: null})
         this.setState({isMaster: false})
@@ -304,6 +323,16 @@ class Node extends Component {
                         className={!this.state.isToggle3? "p": "p selected"}>
                         
                             {this.props.name3}
+                    
+                    </div>
+                    <div 
+                        onClick={this.changeEffect6}
+                        style={divStyle} 
+                        onMouseEnter={this.hover6}
+                        onMouseLeave={this.hover6}
+                        className={!this.state.isToggle6? "p": "p selected"}>
+                        
+                            {this.props.name6}
                     
                     </div>
                     {/* <div 

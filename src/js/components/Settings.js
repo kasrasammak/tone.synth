@@ -3,6 +3,7 @@ import ScreenManager from './ScreenManager'
 import BitCrushScreen from './BitCrushScreen'
 import LFOScreen from './LFOScreen'
 import PingPongScreen from './PingPongScreen'
+import ReverbScreen from './ReverbScreen'
 
 class Settings extends Component {
 
@@ -11,13 +12,16 @@ class Settings extends Component {
         delaysettings: "setting off delay",
         lfosettings: "setting on lfo",
         crushsettings: "setting off bitcrush",
+        reverbsettings: "setting off reverb",
 
 
         filtonoff: false,
+
+
         hoverlfo: false,
-        
         hoverdelay: false,
         hoverbitcrush: false,
+        hoverreverb: false,
 
         isLFOOn : false,
         isDelayOn : false,
@@ -42,6 +46,7 @@ class Settings extends Component {
             this.setState({hoverdelay: false}) 
             this.setState({lfosettings: "setting off lfo"})
             this.setState({crushsettings: "setting off bitcrush"})
+            this.setState({reverbsettings: "setting off reverb"})
         }
         this.setState({currentScreen: 2})
     }
@@ -51,6 +56,7 @@ class Settings extends Component {
             this.setState({lfosettings: "setting on lfo"})
             this.setState({hoverlfo: false})
             this.setState({crushsettings: "setting off bitcrush"})
+            this.setState({reverbsettings: "setting off reverb"})
         }
         this.setState({currentScreen: 1})
     }
@@ -59,9 +65,20 @@ class Settings extends Component {
             this.setState({delaysettings: "setting off delay"}) 
             this.setState({lfosettings: "setting off lfo"})
             this.setState({crushsettings: "setting on bitcrush"})
+            this.setState({reverbsettings: "setting off reverb"})
             this.setState({hoverbitcrush: false})
         }
         this.setState({currentScreen: 0})
+    }
+    changeSettingsReverb= (e) => {
+        if (this.state.reverbsettings == "setting off reverb") {
+            this.setState({delaysettings: "setting off delay"}) 
+            this.setState({lfosettings: "setting off lfo"})
+            this.setState({crushsettings: "setting off bitcrush"})
+            this.setState({reverbsettings: "setting on reverb"})
+            this.setState({hoverreverb: false})
+        }
+        this.setState({currentScreen: 3})
     }
 
     hoverLFO = () => {
@@ -99,6 +116,45 @@ class Settings extends Component {
         }
         
     }
+    hoverReverb = () => {
+        if (this.state.reverbsettings === "setting off reverb")
+        {
+           this.setState({hoverreverb: !this.state.hoverreverb}) 
+        }
+        else if (this.state.reverbsettings === "setting on reverb") 
+        {
+            this.setState({hoverreverb: false})
+        }
+        
+    }
+
+    setReverbDecay = (value) => {
+        console.log(value);
+        this.setState( { knobValueReverbDecay: value.toFixed(2)  } );
+        const {rev} = this.props;
+        
+        rev.decay = value;
+        console.log(rev.decay);
+        console.log(rev.buffer);
+
+    }
+
+    setReverbPredelay = (value) => {
+
+        console.log(value);
+        this.setState( { knobValueReverbPredelay: value.toFixed(2) } );
+        const {rev} = this.props;
+       
+        rev.preDelay.value = value;
+
+
+    }
+   setReverbWet = (val) => {
+        this.setState ( {knobValueReverbWet: val.toFixed(2)})
+        const {rev} = this.props;
+      
+        rev.wet.value = val;
+    }
 
 
     setPingPongTime = (value) => {
@@ -106,10 +162,14 @@ class Settings extends Component {
         console.log(value);
         this.setState( { knobValuePingPongTime: value.toFixed(2)  } );
         const {pingpong} = this.props;
+     
         pingpong.delayTime.value = value;
 
 
     }
+
+ 
+
     setPingPongFeedback = (value) => {
 
         console.log(value);
@@ -230,6 +290,10 @@ class Settings extends Component {
             background: this.state.hoverbitcrush? 'lightgrey':null,
             // color: this.state.hoverbitcrush? 'white':null
         }
+        var hoverreverbstyle = {
+            background: this.state.hoverreverb? 'lightgrey':null,
+            // color: this.state.hoverbitcrush? 'white':null
+        }
 
         return(
             <div class="settings">
@@ -260,6 +324,15 @@ class Settings extends Component {
                         style = {hoverbitcrushstyle}
                     >
                         BIT CRUSH
+                    </div>
+                    <div 
+                        onClick={this.changeSettingsReverb} 
+                        class={this.state.reverbsettings}
+                        onMouseEnter={this.hoverReverb}
+                        onMouseLeave={this.hoverReverb}
+                        style = {hoverreverbstyle}
+                    >
+                        REVERB
                     </div>
                 </div>
                 <div class="line settingsl"></div>
@@ -298,6 +371,14 @@ class Settings extends Component {
                             changeOnOff={this.turnDelayOnOff}
                             onOffOval={this.state.delayOnOffOval}
                             onOffCircle={this.state.delayOnOffCircle}
+                        />,
+                        <ReverbScreen
+                            knobDecayChange={this.setReverbDecay}
+                            knobDecayValue={this.state.knobValueReverbDecay}
+                            knobPredelayChange={this.setReverbPredelay}
+                            knobPredelayValue={this.state.knobValueReverbPredelay}
+                            knobWetChange={this.setReverbWet}
+                            knobWetValue={this.state.knobValueReverbWet}
                         />
                     ]}
                 />

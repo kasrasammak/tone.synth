@@ -7,7 +7,10 @@ import {Oscillator} from 'tone'
 import { PingPongDelay } from 'tone'
 import {BitCrusher} from 'tone'
 import {LFO} from 'tone'
+import { Reverb } from 'tone'
 
+let rev = new Reverb();
+rev.generate();
 let pingpong = new PingPongDelay();
 // let filt = new Filter();
 let bitcrush = new BitCrusher();
@@ -34,6 +37,7 @@ class RoutingAndSettings extends Component {
                         filt={ this.props.filt }
                         pingpong={ pingpong }
                         bitcrush= { bitcrush }
+                        rev = { rev }
                         />
                 </div>
                     
@@ -45,6 +49,7 @@ class RoutingAndSettings extends Component {
                     lfo={this.props.lfo}
                     filt={this.props.filt}
                     pan={this.props.pan}
+                    rev = { rev }
                     />
             </div>
         )
