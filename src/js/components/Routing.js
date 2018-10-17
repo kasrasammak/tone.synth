@@ -414,33 +414,34 @@ class Routing extends Component {
                         />
                         
                     )}
+                    
+                    <div className= "rownodes">
+                        <div class="row2"> </div>
+                    
+                        <div class="row">
+                            <div class="pluscircles blank">
+                                <div  class="pluscircleleft blank">
+                                    <div class="p12"></div>
+                                </div>
+                                <div class="pluscircleright blank">
+                                    <div class="p12"></div>
+                                </div>
+                            </div>
+                            <div class="nodeconnector"> 
 
-                    <div class="row2"> </div>
-                  
-                    <div class="row">
-                        <div class="pluscircles blank">
-                            <div  class="pluscircleleft blank">
-                                <div class="p12"></div>
+                                <div onClick={this.addRowAtEnd} class="node add split">
+                                    <div class="p1">+</div>
+                                </div>
+                                <div onClick={this.removeRowAtEnd} class="node add split">
+                                    <div class="p1">-</div>
+                                </div>
+                            
                             </div>
-                            <div class="pluscircleright blank">
-                                <div class="p12"></div>
-                            </div>
+
+                            
+                            
                         </div>
-                        <div class="nodeconnector"> 
-
-                            <div onClick={this.addRowAtEnd} class="node add split">
-                                <div class="p1">+</div>
-                            </div>
-                            <div onClick={this.removeRowAtEnd} class="node add split">
-                                <div class="p1">-</div>
-                            </div>
-                        
-                        </div>
-
-                        
-                        
                     </div>
-                
                 </div>  
                 
             </div>

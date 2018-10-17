@@ -454,7 +454,9 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
+    
   }
+
   .oscillators {
     width:40%;
     height:100%;
@@ -791,6 +793,7 @@
     height: 100%;
     display: flex;
     flex-direction: row;
+    overflow: auto;
     
   }
   .routing {
