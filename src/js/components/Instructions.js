@@ -10,7 +10,7 @@ export default class Instructions extends Component {
                 <br/><br/>
                 Click on an empty node in the section labeled ROUTING to select an effect.
                 <br/><br/>
-                Drag and drop the yellow node connectors to connect nodes.
+                Drag and drop the yellow node connectors to connect nodes. Repeat to disconnect.
                 <br/><br/>
                 Clicking on the primary OSC node will connect it to and disconnect it from the Master channel.
                 <br/><br/>
@@ -21,7 +21,7 @@ export default class Instructions extends Component {
                             <li>Do not connect the same effect twice</li>
                             <li>Do not connect nodes in the same row</li>
                             <li>Do not change a node which is already connected</li>
-                            <li>There are some bugs with POLY mode; <br/>it is not yet connected to anything, <br/>so if you want to play with it, don't touch anything else.</li>
+                            <li>If you play in POLY mode, do not touch anything else,<br/>as it is not yet connected to anything.</li>
                             <li>Should you accidentally do any of this, <br/>simply refresh the page</li>
                             <li>LFO Power connects the LFO directly 
                                 <br/>to the filter's frequency, 
