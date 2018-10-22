@@ -785,7 +785,7 @@
     padding: 0px;
   }
   .oscstart {
-    background: red;
+    background: lightgrey;
     height: 30px;
     width: 35px;
     /* border: solid black 1px; */
@@ -796,7 +796,7 @@
   }
   .oscstart.stop {
     background: #31D017;
-    
+    /* border: none; */
   }
 
   /* .nothing {
