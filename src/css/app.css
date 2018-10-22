@@ -798,6 +798,10 @@
     background: #31D017;
     
   }
+
+  /* .nothing {
+    background: nothing;
+  } */
   .window {
     background: white;
     border-radius: 0px 10px 10px 10px;
