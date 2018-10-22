@@ -141,13 +141,11 @@ class App extends Component {
 
     connectMaster = (event) => {
         const { selectedNode } = this.state;
-        //TODO handle different node types differently
         selectedNode.toMaster();
     }
 
     disconnectMaster = (event) => {
         const { selectedNode } = this.state;
-        //TODO handle different node types differently
         selectedNode.disconnect(Master);
     }
 
@@ -243,13 +241,6 @@ class App extends Component {
 
         }
     }
-
-
-    // connectEnvtoFilter = (event) => {
-    //     const {env, filt} = this.props;
-    //     env.connect(filt.filter.frequency);
-    // }
-
 
     setVolFeed = () => {
         this.setState({volfeedbarbig: "volfeedbar", volfeedbarsmall: "volfeed1"})
@@ -351,32 +342,9 @@ class App extends Component {
         window.removeEventListener("keyup", this.handleKeyUp);
     }
 
-    // componentDidUpdate() {
-    //     var output = Master.volume.value;
-    //     this.setVolFeed2(output);
-    // }
-
-
     
 
     render () {
-        
-        // console.log(this.mast.volume.value)
-        
-       
-
-        console.log("RENDER APP");
-        console.log("")
-        console.log(this.state.currentScreen)
-
-
-        // const {filt} = this.props;
-        // console.log(filt.type)
-        
-        // console.log(this.props);
-        // console.log(this.props.osc);
-        // console.log(this.state);
-        // console.log(this.state.color);
 
         const nodes = Object.keys(this.props);
 
@@ -476,6 +444,8 @@ class App extends Component {
                         changeSelect={this.changeSelect}
                         myClass={this.state.oscselectclass}
                         number={this.state.number}
+                        setVolFeed={this.setVolFeed}
+                        setVolFeedBack={this.setVolFeedBack}
 
                         />
 
@@ -540,191 +510,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-            {/* <div>
-                <span>
-                    <h1>Welcome to Kasra's tone.js Synthesizer.</h1>
-                </span>
-            </div>
-            <div id="instructions">
-                <span id="instructions1">
-                    Feel free to play with the keyboard
-                    <br/>
-                    <span id="Rememberfootnote">
-                        Remember to input a source sound to an output
-
-                        and connect the necessary source and/or output to the master channel.
-                        <br/>
-                    </span>
-                </span>
-            </div>
-            <br/>
-            <div className="grid-container">
-                <div className = "grid-item1" id="oscillator">
-                    <h2>Oscillator</h2>
-                    <button onClick={this.startOsc} >Start</button>
-                    <button onClick={this.stopOsc}>Stop</button>
-                    <br/>
-                    <select onChange = {this.setOscType} id="oscType">
-                        <option >sine</option>
-                        <option >square</option>
-                        <option >triangle</option>
-                        <option>sawtooth</option>
-                    </select>
-                    <br/>
-                    <div className = "oscknobgrid">
-                        <div className = "oscknob1" id="oscfreq">
-                            <h3>Osc Freq: <br/>{this.state.knobValueOsc}</h3>
-                            <Knob
-                                style={ {
-                                    width:"40px",
-                                    height: "40px",
-                                }}
-                                min={20}
-                                max={20000}
-                                value={this.state.knobValueOsc}
-                                onChange={this.setOscFreq}
-                                unlockDistance={1}
-                            />
-                        </div>
-                        <div className = "oscknob2" id="oscphase">
-                            <h3>Osc Phase: <br/>{this.state.knobValueOscPhase}</h3>
-                            <Knob
-                                style={ {
-                                    width:"40px",
-                                    height: "40px",
-                                }}
-                                min={0}
-                                max={360}
-                                value={this.state.knobValueOscPhase}
-                                onChange={this.setOscPhase}
-                                unlockDistance={1}
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div className = "grid-item2" id="connections">
-                    <h2>Connections</h2>
-                    <span>Input: </span>
-                    <select onChange={this.selectNodeInput} id="toMasterNode" name="audioNode">
-
-                        {nodes.map( (node) => {
-                            return <option key={node} value={node}>{node.toUpperCase()}</option>
-                        })}
-                    </select>
-                    <br/>
-                    <span> Output: </span>
-                    <select onChange={this.selectNodeOutput} id="toMasterNode" name="audioNode">
-                        {nodes.map( (node) => {
-                            return <option key={node} value={node}>{node.toUpperCase()}</option>
-                        })}
-                    </select>
-                    <br/>
-                    <button onClick={this.connect}>Connect</button>
-                    <button onClick={this.disconnect}>Disconnect</button>
-                    <br/>
-                    <span id="connectionstart">**START HERE BELOW</span>
-                    <div>
-
-                        <select onChange={this.selectNode} id="toMasterNode" name="audioNode">
-                            {nodes.map( (node) => {
-                                return <option key={node} value={node}>{node.toUpperCase()}</option>
-                            })}
-                        </select>
-
-                        <button onClick={this.connectMaster}>Connect  to Master</button>
-                        <button onClick={this.disconnectMaster}>Disconnect from Master</button>
-                    </div>
-                </div>
-                <div className="grid-item4" id="filterfreq">
-                    <h2>Filter</h2>
-                    <h3>Filter Freq: <br/>{this.state.knobValueFiltFreq}</h3>
-                    <Knob
-                        style={ {
-                            width: "40px",
-                            height: "40px",
-                          } }
-                        min={this.state.knobFilterFreqMin}
-                        max={this.state.knobFilterFreqMax}
-                        value={this.state.knobValueFiltFreq}
-                        onChange={this.setFiltFreq}
-                        unlockDistance={1}
-                    />
-                    <select onChange = {this.setFilterType}>
-                        <option>lowpass</option>
-                        <option>highpass</option>
-                        <option>bandpass</option>
-                        <option>notch</option>
-                    </select>
-                    <h3>Filter Gain: <br/>{this.state.knobValueFiltGain}</h3>
-                    <Knob
-                        style={ {
-                            width:"40px",
-                            height: "40px",
-                        }}
-                        min={1}
-                        max={200}
-                        value={this.state.knobValueFiltGain}
-                        onChange={this.setFiltGain}
-                        unlockDistance={1}
-                    />
-                </div>
-                <div className="Screen">
-                    <ScreenManager
-                        currentScreen={this.state.currentScreen}
-                        updateScreen={this.updateScreen}
-                        screens={[
-                            <Screen 
-                                knobDepthChange={this.setBitCrushDepth}
-                                knobDepthValue={this.state.knobValueBitCrushDepth}
-                                knobWetChange={this.setBitCrushWet}
-                                knobWetValue={this.state.knobValueBitCrushWet}
-                            />,
-                            <LFOScreen 
-                                TurnLFOOn={this.turnLFOon} 
-                                TurnLFOOff={this.disconnectLFO}
-                                knobLFOFreqChange={this.setLFOFreq}
-                                knobLFOFreqValue={this.state.knobValueLFOFreq}
-                                knobLFOAmpChange={this.setLFOAmp}
-                                knobLFOAmpValue={this.state.knobValueLFOAmp}
-                            />,
-                            <PingPongScreen
-                                knobTimeChange={this.setPingPongTime}
-                                knobTimeValue={this.state.knobValuePingPongTime}
-                                knobFeedbackChange={this.setPingPongFeedback}
-                                knobFeedbackValue={this.state.knobValuePingPongFeedback}
-                                knobWetChange={this.setPingPongWet}
-                                knobWetValue={this.state.knobValuePingPongWet}
-                            />
-                        ]}
-                    />
-                </div>
-                <div class="selectorgrid">
-                    <div id="pingpongselector" onClick={() => this.updateScreen(2)}>
-                        <h2> Ping Pong Delay </h2>
-                    </div>
-                    <div id="lfoselector" onClick={() => this.updateScreen(1)}>
-                        <h2>LFO</h2>
-                    </div>
-                    <div id="bitcrusherselector" onClick={() => this.updateScreen(0)}>
-                        <h2>Bit Crusher</h2>
-                    </div>
-                </div>
-                <div class="panner">
-                <h2>Panner</h2>
-                    <h3>Pan: <br/>{this.state.knobValuePanner}</h3>
-                    <Knob
-                        style={ {
-                            width: "40px",
-                            height: "40px",
-                          } }
-                        min={-1}
-                        max={1}
-                        value={this.state.knobValuePanner}
-                        onChange={this.setPan}
-                        unlockDistance={1}
-                    />    
-                </div>
-            </div> */}
-

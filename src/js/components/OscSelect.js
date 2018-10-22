@@ -65,6 +65,8 @@ class OscSelect extends Component {
         osconoffcircle: "oncircle",
         knobValueOscVol: 0,
         toggleOscOn: true,
+        toggleOscStartStop: false,
+        oscstartstop: "oscstart",
     }
 
     changeSine = (e) => {
@@ -159,6 +161,22 @@ class OscSelect extends Component {
 
         this.setState({toggleOscOn: !this.state.toggleOscOn})
         
+    }
+
+    oscStartStop = () => {
+        const { osc } = this.props;
+        if (!this.state.toggleOscStartStop) {
+            osc.start();
+            this.setState({toggleOscStartStop: !this.state.toggleOscStartStop})
+            this.setState({oscstartstop: "oscstart stop"})
+            this.props.setVolFeed();
+        }
+        else if (this.state.toggleOscStartStop) {
+            osc.stop();
+            this.setState({toggleOscStartStop: !this.state.toggleOscStartStop})
+            this.setState({oscstartstop: "oscstart"})
+            this.props.setVolFeedBack();
+        }
     }
     componentDidMount() {
         if (this.props.number > 1) {
@@ -280,6 +298,7 @@ class OscSelect extends Component {
                             />
                         </div>
                     </div>
+                    <div class={this.state.oscstartstop} onClick={this.oscStartStop}><div className="p"></div></div>
                     <div class="oscon">
                         <div class="onoff">
                             <div onClick={this.turnOscOnOff} class={this.state.osconoffoval}></div>

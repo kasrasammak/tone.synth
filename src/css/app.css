@@ -671,7 +671,7 @@
     border: solid black 1px;
     border-radius: 5px;
     background: white;
-    display: flexbox;
+    display: flex;
     flex-direction: column;
     justify-content: flex-start;
   }
@@ -780,11 +780,24 @@
     background: lightgrey;
     padding: 0px;
   }
-  oscsrctxt2 {
+  .oscsrctxt2 {
     background: white;
     padding: 0px;
   }
-
+  .oscstart {
+    background: red;
+    height: 30px;
+    width: 35px;
+    /* border: solid black 1px; */
+    border-radius: 20px;
+    position: relative;
+    top: 40px;
+    margin: 0 0 0 10px;
+  }
+  .oscstart.stop {
+    background: #31D017;
+    
+  }
   .window {
     background: white;
     border-radius: 0px 10px 10px 10px;
