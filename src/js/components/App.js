@@ -1,32 +1,11 @@
 import React, { Component } from 'react'
-
 import { Knob } from 'react-rotary-knob';
-import { Transport } from 'tone'
-import { Tone } from 'tone';
 import { Master } from 'tone';
-import { Signal } from 'tone';
-import { PingPongDelay } from 'tone';
-
 import Instructions from './Instructions'
-
-import ScreenManager from 'components/ScreenManager';
-import BitCrushScreen from 'components/BitCrushScreen';
-import LFOScreen from 'components/LFOScreen';
-import PingPongScreen from './PingPongScreen';
-
 import { noteMap } from 'config';
-import MyComponent from './MyComponent';
-import Key from './Key'
-import FilterType from './FilterType'
-import Routing from './Routing'
-
 import OscSelect from './OscSelect'
-import OscAdds from './OscAdds'
-import Settings from './Settings'
-
 import Keyboard from './Keyboard'
 import MyFilter from './Filter'
-
 import RoutingAndSettings from './RoutingAndSettings'
 
 
@@ -35,13 +14,9 @@ class App extends Component {
        super(props);
        this.pressedKeys = [];
        }
-
-
-
     state = {
         knobValueOsc : 0,
         knobValueOscPhase : 0,
-        
         knobValuePingPongTime : 0.4,
         knobValuePingPongFeedback : 0.4,
         anotherValue : 10,
@@ -55,43 +30,23 @@ class App extends Component {
         knobValueBitCrushWet : .5,
         LFOConnected: "Disconnected",
         knobValuePingPongWet : .5,
-   
         knobValuePanner :  0,
         knobValueVolume : 0,
-
         oscillators : [],
-
-        
-
-
-
-        
         openoscwav : "osctype",
         oscwavopen : false,
         osctype : "oscsource",
         osctypeopen: false,
-
-        
-        
         volfeedbarbig: "volfeedbar norm",
         volfeedbarsmall: "volfeed1 norm2",
         volfeedbarsmalllength: 180,
-
         oscselectclass: "osc one",
         oscselectclass2: "osc",
-
-        
-        
-   
         keyCode : 65,
         note : "C",
-
         selectedNumbers : [],
-
         number : 1
     }
-
-
     openOscWav = () => {
         console.log(this.state.openoscwav)
         if (this.state.openoscwav ===  "osctype")
@@ -115,8 +70,6 @@ class App extends Component {
             this.setState({osctypeopen: false})
         }
     }
-
-
     setOscType = (event) => {
         console.log(event.target.value);
         const osc = this.props.osc;
@@ -179,7 +132,6 @@ class App extends Component {
         osc.phase = val;
         this.setState({knobValueOscPhase : Math.floor(val)})
     }
-
     setOscFreq = (value) => {
 
         console.log(value);
@@ -196,9 +148,7 @@ class App extends Component {
         const value2 = Math.pow(2, minv + scale*(position - minp));
         osc.frequency.value = value2;
         this.setState( { knobValueOsc: Math.floor(value2)}  );
-    }
-
-    
+    }   
     setPan = (val) => {
         const {pan} = this.props;
         this.setState( {knobValuePanner : val.toFixed(2)} );
@@ -209,7 +159,6 @@ class App extends Component {
         this.setState( {knobValueVolume : val.toFixed(2)} );
         vol.volume.value = val;
     }
-
     addSection = () => {
         if (this.state.selectedNumbers.length === 0) {
             this.setState(prevState => ({
@@ -221,14 +170,12 @@ class App extends Component {
             this.setState(prevState => ({
                 selectedNumbers: prevState.selectedNumbers.concat(val + 1)
             }))
-        }
-        
+        } 
     }
     makeNewOscillator = () => {
         
         return(new Oscillator())
     }
-
     removeSection = () => {
         this.state.selectedNumbers.pop()
         this.setState(prevState => ({
@@ -241,30 +188,21 @@ class App extends Component {
 
         }
     }
-
     setVolFeed = () => {
         this.setState({volfeedbarbig: "volfeedbar", volfeedbarsmall: "volfeed1"})
     }
     setVolFeedBack = () => {
         this.setState({volfeedbarbig: "volfeedbar norm", volfeedbarsmall: "volfeed1 norm2"})
     }
-
     setVolFeed2(val) {
         this.setState({volfeedbarsmalllength : Math.floor(val)})
-
-    }
-
-
-    
+    }    
     handleKeyDown = (event) => {
-
         const { poly, osc } = this.props;
         console.log(poly);
         const keyCode = event.keyCode;
         const note = noteMap[keyCode];
         let oct = this.state.oct;
-        
-
         if (note != undefined && !this.pressedKeys.includes(keyCode)) {
             this.pressedKeys.push(keyCode);
             if (keyCode === 75 || keyCode === 79 || keyCode === 76) {
@@ -288,17 +226,13 @@ class App extends Component {
         if (event.keyCode === 88){
             oct ++;
         }
-        this.setState({oct, keyCode});
-        
+        this.setState({oct, keyCode});        
     }
-
-
     handleKeyUp = (event) => {
         const { poly, osc } = this.props;
         const keyCode = event.keyCode;
         const note = noteMap[keyCode];
         let oct = this.state.oct;
-        
         var keyIndex = this.pressedKeys.indexOf(keyCode);
         if(keyIndex !== -1) {
             this.pressedKeys.splice(keyIndex, 1);
@@ -316,64 +250,42 @@ class App extends Component {
                     this.setVolFeedBack();
                 }
             }
-        }
-        
+        }       
         this.setState({oct})
     }
-
     componentDidMount() {
         window.addEventListener("keydown", this.handleKeyDown);
         window.addEventListener("keyup", this.handleKeyUp);
         const {osc, vol, filt, pan} = this.props;
-        vol.toMaster();
-        console.log("");
-       
+        vol.toMaster(); 
         osc.connect(pan);
         pan.connect(vol);
-        
-       
-        console.log("THIS IS THE ")
-        console.log(vol.volume.value)
-        console.log(this.state.filtonoff)
     }
-
     componentWillUnmount() {
         window.removeEventListener("keydown", this.handleKeyDown);
         window.removeEventListener("keyup", this.handleKeyUp);
     }
-
-    
-
     render () {
-
         const nodes = Object.keys(this.props);
-
-
         var divStyle2 = {
             display:this.state.oscwavopen?'block':'none'
           };
-
         var divStyle3 = {
             display: this.state.osctypeopen? 'block':'none'
         }
-        
-
         return (
         <div className="appbackground">
             <div className="app">
                 <div className="upperchain">
-
                 <Keyboard
                     oct={this.state.oct}
                     note={this.state.note}
                     />   
-
                 <MyFilter 
                     osc={this.props.osc}
                     pan={this.props.pan}
                     filt={this.props.filt}
                     />
-              
                 <div className="component master">
                   <div className="uppermaster">
                     <div className="mastertext">MASTER</div>
@@ -422,7 +334,6 @@ class App extends Component {
                   </div>
                 </div>
             </div>
-
             <div className="lowerchain">
                         <div className="oscillators">
                         <OscSelect 
@@ -446,12 +357,11 @@ class App extends Component {
                         number={this.state.number}
                         setVolFeed={this.setVolFeed}
                         setVolFeedBack={this.setVolFeedBack}
-
                         />
-
                         <Instructions />
-
-                        {/* {this.state.selectedNumbers.map((number) => 
+                        {/* 
+                        //For Later Stages of the Application
+                        {this.state.selectedNumbers.map((number) => 
                             <OscSelect 
                             myOscStyle={divStyle2}
                             onWavClick={this.openOscWav}
@@ -470,26 +380,24 @@ class App extends Component {
                             changeSelect={this.changeSelect}
                             myClass={this.state.oscselectclass2}
                             number={number}
-
                             />
                             )}
-                        
-
-                        <div class="osc new">
-                            <div onClick= {this.addSection} class="numbercontainer">
-                                <div class="addconn">
-                                    <div class="plustext">+</div>
+                            <div class="osc new">
+                                <div onClick= {this.addSection} class="numbercontainer">
+                                    <div class="addconn">
+                                        <div class="plustext">+</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="addconnection">
-                                ADD CONNECTION
-                            </div>
-                            <div onClick= {this.removeSection} class="numbercontainer">
-                                <div class="addconn">
-                                    <div class="minustext">-</div>
+                                <div class="addconnection">
+                                    ADD CONNECTION
                                 </div>
-                            </div>
-                        </div> */}
+                                <div onClick= {this.removeSection} class="numbercontainer">
+                                    <div class="addconn">
+                                        <div class="minustext">-</div>
+                                    </div>
+                                </div>
+                            </div> 
+                            */}
                     </div>
                     <RoutingAndSettings 
                         osc={this.props.osc}
@@ -498,14 +406,8 @@ class App extends Component {
                         filt={this.props.filt}
                     />
                 </div>
-
             </div>
-           
-      
-
         </div>);   
-
-
     }
 }
 

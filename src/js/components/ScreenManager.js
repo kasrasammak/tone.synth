@@ -18,21 +18,7 @@ export default class ScreenManager extends Component {
 
 		return (
 			<div class="settingsarea">
-
-				{/* <div> */}
 					{currentScreen}
-				{/* </div> */}
-
-				{/* <div className="screen-controls">
-					{screens.map( (screen, i) => {
-						return (<div
-							key={i}
-							className="screen-control"
-							onClick={() => this.props.updateScreen(i)}>
-							Screen {i}
-							</div>)
-					})}
-				</div> */}
 			</div>
 		);
 	}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react' 
 
-
 class OscOptions extends Component {
     state = {
         isToggle: false,
@@ -8,7 +7,6 @@ class OscOptions extends Component {
         isToggle3: false,
         isToggle4: false
     }
-
     hover = (e) =>{
         this.setState({isToggle: !this.state.isToggle})
     }
@@ -21,7 +19,6 @@ class OscOptions extends Component {
     hover4 = (e) =>{
         this.setState({isToggle4: !this.state.isToggle4})
     }
-
     render() {
         return (
             <div style={this.props.myStyles}>
@@ -34,8 +31,7 @@ class OscOptions extends Component {
                         <div class="sineleft"></div>
                         <div class="sineright"></div>
                     </div>                      
-                </div>
-                
+                </div>                
                 <div 
                     onClick={this.props.onSquare}
                     onMouseEnter={this.hover2}
@@ -45,8 +41,7 @@ class OscOptions extends Component {
                         <div class="squareleft"></div>
                         <div class="squareright"></div>
                     </div>
-                </div>
-                
+                </div>               
                 <div 
                     onClick={this.props.onSaw}
                     onMouseEnter={this.hover3}
@@ -71,7 +66,6 @@ class OscOptions extends Component {
             </div>
         )
     }
-
 }
 
 export default OscOptions

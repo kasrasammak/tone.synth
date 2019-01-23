@@ -5,9 +5,7 @@ class LFOScreen extends Component {
     state = {
         onoffoval: "offoval",
         onoffcircle: "offcircle",
-
     }
-
     changeOnOff = () => {
         if (this.state.onoffoval === "offoval") {
             this.setState({onoffoval: "onoval"})
@@ -24,15 +22,8 @@ class LFOScreen extends Component {
             this.setState({onoffcircle:"offcircle"})
         }
     }
-
-
-
-
-    render() {
-
-        
-        return(
-            
+    render() {     
+        return(         
                 <div class="settingsarea">
                     <div class="item">
                         <div class="settingstext">

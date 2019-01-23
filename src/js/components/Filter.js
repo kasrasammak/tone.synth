@@ -10,10 +10,8 @@ class MyFilter extends Component {
         filtonoff: false,
         filtonoffoval: "offoval",
         filtonoffcircle: "offcircle",
-
         knobValueFiltFreq : 0,
         knobValueFiltRes : 0,
-
         knobFilterFreqMin : 20,
         knobFilterFreqMax : 20000,
     }
@@ -153,15 +151,6 @@ class MyFilter extends Component {
                          />
                       </div>
                     </div> 
-
-
-                    {/* <div className="filteron">
-                      <div onClick={this.attachFilt} className="onoff clean">
-                        <div onClick={this.turnFiltOnOff} className={this.state.filtonoffoval}></div>
-                        <div onClick={this.turnFiltOnOff} className={this.state.filtonoffcircle}></div>
-                      </div>
-                    </div> */}
-                    
                 </div>
             </div>
         )

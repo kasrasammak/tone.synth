@@ -14,12 +14,9 @@ class NodeOption extends Component {
                 style={this.props.divStyle}
                 onMouseEnter={this.hover}
                 onMouseLeave={this.hover}
-                // className={!this.props.isToggle1?"p":"p selected top"}
                 className={this.props.toggleClass}
-                >
-                    
+                > 
                 {this.props.name}
-
             </div>
         )
     }

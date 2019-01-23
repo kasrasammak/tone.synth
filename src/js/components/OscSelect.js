@@ -1,7 +1,6 @@
 import React, { Component } from 'react' 
 import OscOptions from './OscOptions'
 import { Knob } from 'react-rotary-knob';
-import { Oscillator } from 'tone'
 
 
 class Sine extends Component {
@@ -196,15 +195,12 @@ class OscSelect extends Component {
         {
             osc.mute = false;
         }
-        // console.log(this.props)
         const myStyles = {
   
         }
         var divStyle = {
             display: this.state.isToggle? "block":"none"
         }
-        // const { wavs } = this.props;
-        // const currentWav = wavs[this.props.currentWav]
 
         return (
             <div>

@@ -7,37 +7,28 @@ class FilterType extends Component {
         filteroption2 : " above",
         isToggle : false,
         filtType : "lowpass"
-    }
-    
+    }   
     changeHighpass = (e) => {
         this.setState({filtertype: "highpass" })
         this.setState({isToggle: false})
         this.setState({filtType : "highpass"})
         const filt = this.props.myFilt;
         filt.type = "highpass";
-      
     }
-
     changeLowpass = (e) => {
         this.setState({filtertype: "lowpass above" })
         this.setState({isToggle: false})
         this.setState({filtType : "lowpass"})
         const filt = this.props.myFilt;
-        filt.type = "lowpass";
-        
-        
+        filt.type = "lowpass";    
     }
-
     changeBandpass = (e) => {
         this.setState({filtertype: "bandpass" })
         this.setState({isToggle: false})
         this.setState({filtType : "bandpass"})
         const filt = this.props.myFilt;
-        filt.type = "bandpass";
-       
-    
+        filt.type = "bandpass";   
     }
-
     changeNotch = (e) => {
         this.setState({isToggle: true})
         this.setState({filtertype: "notchabove" })
@@ -45,19 +36,13 @@ class FilterType extends Component {
         const filt = this.props.myFilt;
         filt.type = "notch";
     }
-
-
     render() {
-
         var divStyle = {
             display: this.state.isToggle? "block":"none"
         }
-
         return (
             <div style={this.props.myStyles} onClick={this.props.onClick} className={this.props.myClass}>
-
                 <div className="shape">
-                      
                       <div className="firstshapes">
                         <div className={this.state.filtertype}>                           
                                 <div style={divStyle} className="notchleft"></div>
@@ -65,7 +50,6 @@ class FilterType extends Component {
                         </div>
                         <div className="triangleupsidedown filttype"></div>
                       </div>
-                      
                       <FilterOptions 
                         myClass=""
                         onHighpass={this.changeHighpass}
@@ -73,14 +57,8 @@ class FilterType extends Component {
                         onBandpass={this.changeBandpass}
                         onNotch={this.changeNotch}
                         myStyles={this.props.myFilterStyles}
-                        // myFilt={this.props.myFilt}
-                    
-                        />
-                    
-                    
-                        
-                </div>
-            
+                        />       
+                </div>           
             </div>
         );
     }

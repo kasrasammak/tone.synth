@@ -1,15 +1,5 @@
 import React, { Component } from 'react'
-import  Node  from './Node'
 import RowofNodes from './RowofNodes'
-
-import {Filter} from 'tone'
-import {Oscillator} from 'tone'
-import { PingPongDelay } from 'tone'
-import {BitCrusher} from 'tone'
-import {LFO} from 'tone'
-import {Panner} from  'tone'
-import {Volume} from 'tone'
-import {Master} from 'tone'
 
 class Routing extends Component {
 
@@ -17,12 +7,10 @@ class Routing extends Component {
         selectedNodes: [],
         connector: this.props.osc,
         connected: null,
-
         isWire1: false,
         isWire2: false,
         isWire3: false,
         isWire4: false,
-
         node: "node green",
         isOscMaster: true,
         OsctoFilt: false,
@@ -41,10 +29,8 @@ class Routing extends Component {
         RevtoFilt: false,
         RevtoBitCrush: false,
         RevtoDelay: false,
-
         inputWire: null,
         outputWire: null,
-
         isNodeOutputNull: true,
 
     }
@@ -303,12 +289,10 @@ class Routing extends Component {
         const {osc, pan} = this.props;
         if (this.state.node === "node") {
             this.setState({node: "node green"})
-            // this.setState({isOscMaster: true})
             osc.connect(pan)
         }
         else if (this.state.node === "node green") {
             this.setState({node: "node"})
-            // this.setState({isOscMaster: false})
             osc.disconnect(pan)
         }
     }
@@ -335,8 +319,7 @@ class Routing extends Component {
     }
 
     render() {
-        console.log(this.state.inputWire, "to", this.state.outputWire)
-
+        
         var divStyleWire1 = {
             display: this.state.isWire1? "block": "none"
         }
@@ -347,16 +330,9 @@ class Routing extends Component {
             display: this.state.isWire3? "block": "none"
         }
         return (
-           
             <div class="routingarea">
-                {/* <div onClick={this.readIt} class= "newnode"><div class="p">Read</div></div> */}
-                
-                
-                
                 <div class="grid">
-            
                     <div class="rownodes">
-                        
                         <div class="row">
                             <div class="pluscircles">
                                 <div onClick={this.addRow} class="pluscircleleft">
@@ -377,19 +353,8 @@ class Routing extends Component {
                                     class="connector">
                                 </div>
                             </div>
-
                         </div>
-
-                        {/* <div class="row2">
-                            <div style={divStyleWire1} class="wire1"></div>
-                            <div style={divStyleWire2} class="wire2"></div>
-                            <div style={divStyleWire2} class="wire2bottom"></div>
-                            <div style={divStyleWire3} class="wire3"></div>
-                            <div style={divStyleWire3} class="wire3bottom"></div>
-                        </div> */}
                     </div>
-
-
                     {this.state.selectedNodes.map((number) => 
                     <RowofNodes 
                         number={number}
@@ -412,12 +377,9 @@ class Routing extends Component {
                         setOutputNode={(node) => this.setOutputNode(node)}
                         isNodeOutputNull={this.state.isNodeOutputNull}
                         />
-                        
                     )}
-                    
                     <div className= "rownodes">
                         <div class="row2"> </div>
-                    
                         <div class="row">
                             <div class="pluscircles blank">
                                 <div  class="pluscircleleft blank">
@@ -428,24 +390,17 @@ class Routing extends Component {
                                 </div>
                             </div>
                             <div class="nodeconnector"> 
-
                                 <div onClick={this.addRowAtEnd} class="node add split">
                                     <div class="p1">+</div>
                                 </div>
                                 <div onClick={this.removeRowAtEnd} class="node add split">
                                     <div class="p1">-</div>
                                 </div>
-                            
                             </div>
-
-                            
-                            
                         </div>
                     </div>
-                </div>  
-                
-            </div>
-               
+                </div>         
+            </div>    
         )
     }
 }

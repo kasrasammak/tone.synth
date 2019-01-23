@@ -245,7 +245,6 @@ class Keyboard extends Component {
         
     }
     
-
     componentDidMount() {
         window.addEventListener("keydown", this.handleKeyDown);
         window.addEventListener("keyup", this.handleKeyUp);
@@ -255,7 +254,6 @@ class Keyboard extends Component {
             <div className="component keyboard">
                         <div className="section keys">  
                             <div className="key tab space">
-
                             </div>
                             <Key
                                 myClass="key letter"
@@ -263,7 +261,6 @@ class Keyboard extends Component {
                             >
                                 W
                             </Key>
-                            
                             <Key
                                 myClass="key letter"
                                 myStyle={this.state.colore}
@@ -271,7 +268,6 @@ class Keyboard extends Component {
                                 E
                             </Key>
                             <div className="key letter space">
-
                             </div>
                             <Key
                                 myClass="key letter"
@@ -300,10 +296,7 @@ class Keyboard extends Component {
                             >
                                 O
                             </Key>
-
-
                             <div className="key caps space">
-
                             </div>
                             <Key
                                 myClass="key letter"
@@ -359,7 +352,6 @@ class Keyboard extends Component {
                             >
                                 L
                             </Key>
-
                             <div className="key shift space">
                                 <div className="arrow down">
                                 v
@@ -379,10 +371,8 @@ class Keyboard extends Component {
                             </Key>
                             <div className="key space arrow up">
                                 ^
-
                             </div>
-                        </div>
-                        
+                        </div>                       
                         <div className="section notemap">
                             <div className="note">NOTE
                                 <Key
@@ -399,7 +389,6 @@ class Keyboard extends Component {
                                 >
                                     {this.props.oct}
                                 </Key>
-                                
                             </div>
                         </div>
                     </div>

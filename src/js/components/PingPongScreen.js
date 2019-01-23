@@ -69,15 +69,7 @@ class PingPongScreen extends Component {
                         </div>
                     </div>
                     <div class="line settingss"></div>
-                    {/* <div class="item">
-                        <div class="settingstext">
-                            DELAY POWER
-                        </div>
-                        <div  onClick={this.props.changeOnOff} class="onoff lfoon">
-                            <div class={this.props.onOffOval}></div>
-                            <div class={this.props.onOffCircle}></div>
-                        </div>
-                    </div> */}
+                    <div class="item"></div>
                     <div class="line settingss"></div>
                     <div class="item"></div>
                     <div class="line settingss"></div>

@@ -6,23 +6,16 @@ import PingPongScreen from './PingPongScreen'
 import ReverbScreen from './ReverbScreen'
 
 class Settings extends Component {
-
-
     state = {
         delaysettings: "setting off delay",
         lfosettings: "setting on lfo",
         crushsettings: "setting off bitcrush",
         reverbsettings: "setting off reverb",
-
-
         filtonoff: false,
-
-
         hoverlfo: false,
         hoverdelay: false,
         hoverbitcrush: false,
         hoverreverb: false,
-
         isLFOOn : false,
         isDelayOn : false,
         isBitCrushOn : false,
@@ -34,12 +27,9 @@ class Settings extends Component {
         bitCrushOnOffCircle: "offcircle",
         currentScreen: 1,
     }
-
     updateScreen = (currentScreen) => {
         this.setState({currentScreen})
     }
-
-
     changeSettingsDelay = (e) => {
         if (this.state.delaysettings == "setting off delay") {
             this.setState({delaysettings: "setting on delay"})
@@ -89,10 +79,8 @@ class Settings extends Component {
         else if (this.state.lfosettings === "setting on lfo") 
         {
             this.setState({hoverlfo: false})
-        }
-        
+        }  
     }
-
     hoverDelay = () => {
         if (this.state.delaysettings === "setting off delay")
         {
@@ -101,10 +89,8 @@ class Settings extends Component {
         else if (this.state.delaysettings === "setting on delay") 
         {
             this.setState({hoverdelay: false})
-        }
-        
+        }   
     }
-
     hoverBitCrush = () => {
         if (this.state.crushsettings === "setting off bitcrush")
         {
@@ -114,7 +100,6 @@ class Settings extends Component {
         {
             this.setState({hoverbitcrush: false})
         }
-        
     }
     hoverReverb = () => {
         if (this.state.reverbsettings === "setting off reverb")
@@ -125,9 +110,7 @@ class Settings extends Component {
         {
             this.setState({hoverreverb: false})
         }
-        
     }
-
     setReverbDecay = (value) => {
         console.log(value);
         this.setState( { knobValueReverbDecay: value.toFixed(2)  } );
@@ -136,48 +119,29 @@ class Settings extends Component {
         rev.decay = value;
         console.log(rev.decay);
         console.log(rev.buffer);
-
     }
-
     setReverbPredelay = (value) => {
-
         console.log(value);
         this.setState( { knobValueReverbPredelay: value.toFixed(2) } );
         const {rev} = this.props;
-       
         rev.preDelay.value = value;
-
-
     }
    setReverbWet = (val) => {
         this.setState ( {knobValueReverbWet: val.toFixed(2)})
         const {rev} = this.props;
-      
         rev.wet.value = val;
     }
-
-
     setPingPongTime = (value) => {
-
         console.log(value);
         this.setState( { knobValuePingPongTime: value.toFixed(2)  } );
         const {pingpong} = this.props;
-     
         pingpong.delayTime.value = value;
-
-
     }
-
- 
-
     setPingPongFeedback = (value) => {
-
         console.log(value);
         this.setState( { knobValuePingPongFeedback: value.toFixed(2) } );
         const {pingpong} = this.props;
         pingpong.feedback.value = value;
-
-
     }
     setPingPongWet = (val) => {
         this.setState ( {knobValuePingPongWet: val.toFixed(2)})
@@ -187,10 +151,8 @@ class Settings extends Component {
     setLFOFreq = (value) => {
         this.setState( { knobValueLFOFreq : Math.floor(value) } );
         const {lfo} = this.props;
-
         lfo.frequency.value = value;
-        console.log(lfo.frequency.value)
-
+        console.log(lfo.frequency.value);
     }
     setLFOAmp = (value) => {
         this.setState( { knobValueLFOAmp: value.toFixed(2) } );
@@ -208,7 +170,6 @@ class Settings extends Component {
         lfo.disconnect();
         this.setState( { LFOConnected : "Disconnected" } );
     }
-
     changeLFOOnOff = () => {
         if (!this.state.isLFOOn) {
             this.setState({lfoonoffoval: "onoval"})
@@ -228,7 +189,6 @@ class Settings extends Component {
             this.setState( { isLFOOn : false } );
         }
     }
-
     turnDelayOnOff = () => {
         if (!this.state.isDelayOn) {
             this.setState({delayOnOffOval: "onoval"})
@@ -263,7 +223,6 @@ class Settings extends Component {
             this.setState( { isBitCrushOn : false } );
         }
     }
-
     setBitCrushDepth = (val) => {
         const {bitcrush} = this.props;
         this.setState( { knobValueBitCrushDepth : Math.floor(val) } );
@@ -274,27 +233,19 @@ class Settings extends Component {
         this.setState( { knobValueBitCrushWet : val.toFixed(2) } );
         bitcrush.wet.value =  val;
     }
-
-
-    render(){
-        
+    render(){       
         var hoverlfostyle = {
             background: this.state.hoverlfo? 'lightgrey':null,
-            // color: this.state.hoverlfo? 'white':null
         }
         var hoverdelaystyle = {
             background: this.state.hoverdelay? 'lightgrey':null,
-            // color: this.state.hoverdelay? 'white':null
         }
         var hoverbitcrushstyle = {
             background: this.state.hoverbitcrush? 'lightgrey':null,
-            // color: this.state.hoverbitcrush? 'white':null
         }
         var hoverreverbstyle = {
             background: this.state.hoverreverb? 'lightgrey':null,
-            // color: this.state.hoverbitcrush? 'white':null
         }
-
         return(
             <div class="settings">
                 <div class="settingsoptions">

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { Knob } from 'react-rotary-knob'
-import App from './App';
-
 
 class BitCrushScreen extends Component {
     render() {
@@ -50,19 +48,8 @@ class BitCrushScreen extends Component {
                     </div>
                 </div>
                 <div class="line settingss"></div>
-                {/* <div class="item">
-                    <div class="settingstext">
-                        BIT CRUSH POWER
-                    </div>
-                    <div class="onoff lfoon">
-                        <div onClick={this.props.changeOnOff} class={this.props.onOffOval}></div>
-                        <div onClick={this.props.changeOnOff} class={this.props.onOffCircle}></div>
-                    </div>
-                </div> */}
             </div>
-
         )
-    
     }
 }
 
